@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "858838546933",
+    "project_id": "instagramclone-bbbee",
+    "storage_bucket": "instagramclone-bbbee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858838546933:android:4228bfb88536218db048bc",
+        "android_client_info": {
+          "package_name": "com.aks.snapmirror"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC5phHLNtQ0pUS7FvAHWuCmh5av44g6uA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858838546933:android:f0a1fcc16e19c68fb048bc",
+        "android_client_info": {
+          "package_name": "com.example.snapmirror"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC5phHLNtQ0pUS7FvAHWuCmh5av44g6uA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
