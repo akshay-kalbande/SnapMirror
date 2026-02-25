@@ -445,12 +445,12 @@ $FollowingFeedStateCopyWith<FollowingFeedState> get copyWith => _$FollowingFeedS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FollowingFeedState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.posts, posts) || other.posts == posts)&&const DeepCollectionEquality().equals(other.message, message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FollowingFeedState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.posts, posts) || other.posts == posts)&&(identical(other.message, message) || other.message == message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,posts,const DeepCollectionEquality().hash(message));
+int get hashCode => Object.hash(runtimeType,isLoading,posts,message);
 
 @override
 String toString() {
@@ -469,7 +469,7 @@ $Res call({
 });
 
 
-$PageResultCopyWith<String, $Res>? get posts;
+$PageResultCopyWith<String, $Res>? get posts;$ScreenMessageCopyWith<$Res>? get message;
 
 }
 /// @nodoc
@@ -501,6 +501,18 @@ $PageResultCopyWith<String, $Res>? get posts {
 
   return $PageResultCopyWith<String, $Res>(_self.posts!, (value) {
     return _then(_self.copyWith(posts: value));
+  });
+}/// Create a copy of FollowingFeedState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get message {
+    if (_self.message == null) {
+    return null;
+  }
+
+  return $ScreenMessageCopyWith<$Res>(_self.message!, (value) {
+    return _then(_self.copyWith(message: value));
   });
 }
 }
@@ -654,12 +666,12 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FollowingFeedState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.posts, posts) || other.posts == posts)&&const DeepCollectionEquality().equals(other.message, message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FollowingFeedState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.posts, posts) || other.posts == posts)&&(identical(other.message, message) || other.message == message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,posts,const DeepCollectionEquality().hash(message));
+int get hashCode => Object.hash(runtimeType,isLoading,posts,message);
 
 @override
 String toString() {
@@ -678,7 +690,7 @@ $Res call({
 });
 
 
-@override $PageResultCopyWith<String, $Res>? get posts;
+@override $PageResultCopyWith<String, $Res>? get posts;@override $ScreenMessageCopyWith<$Res>? get message;
 
 }
 /// @nodoc
@@ -711,6 +723,18 @@ $PageResultCopyWith<String, $Res>? get posts {
 
   return $PageResultCopyWith<String, $Res>(_self.posts!, (value) {
     return _then(_self.copyWith(posts: value));
+  });
+}/// Create a copy of FollowingFeedState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get message {
+    if (_self.message == null) {
+    return null;
+  }
+
+  return $ScreenMessageCopyWith<$Res>(_self.message!, (value) {
+    return _then(_self.copyWith(message: value));
   });
 }
 }

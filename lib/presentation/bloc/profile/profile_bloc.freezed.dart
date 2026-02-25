@@ -694,12 +694,12 @@ $ProfileStateCopyWith<ProfileState> get copyWith => _$ProfileStateCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileState&&(identical(other.user, user) || other.user == user)&&const DeepCollectionEquality().equals(other.posts, posts)&&const DeepCollectionEquality().equals(other.nextPageToken, nextPageToken)&&const DeepCollectionEquality().equals(other.message, message)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.fetchingMore, fetchingMore) || other.fetchingMore == fetchingMore)&&(identical(other.isLastPage, isLastPage) || other.isLastPage == isLastPage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileState&&(identical(other.user, user) || other.user == user)&&const DeepCollectionEquality().equals(other.posts, posts)&&const DeepCollectionEquality().equals(other.nextPageToken, nextPageToken)&&(identical(other.message, message) || other.message == message)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.fetchingMore, fetchingMore) || other.fetchingMore == fetchingMore)&&(identical(other.isLastPage, isLastPage) || other.isLastPage == isLastPage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,user,const DeepCollectionEquality().hash(posts),const DeepCollectionEquality().hash(nextPageToken),const DeepCollectionEquality().hash(message),isLoading,fetchingMore,isLastPage);
+int get hashCode => Object.hash(runtimeType,user,const DeepCollectionEquality().hash(posts),const DeepCollectionEquality().hash(nextPageToken),message,isLoading,fetchingMore,isLastPage);
 
 @override
 String toString() {
@@ -718,7 +718,7 @@ $Res call({
 });
 
 
-$UserEntityCopyWith<$Res>? get user;
+$UserEntityCopyWith<$Res>? get user;$ScreenMessageCopyWith<$Res>? get message;
 
 }
 /// @nodoc
@@ -753,6 +753,18 @@ $UserEntityCopyWith<$Res>? get user {
 
   return $UserEntityCopyWith<$Res>(_self.user!, (value) {
     return _then(_self.copyWith(user: value));
+  });
+}/// Create a copy of ProfileState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get message {
+    if (_self.message == null) {
+    return null;
+  }
+
+  return $ScreenMessageCopyWith<$Res>(_self.message!, (value) {
+    return _then(_self.copyWith(message: value));
   });
 }
 }
@@ -913,12 +925,12 @@ _$ProfileStateCopyWith<_ProfileState> get copyWith => __$ProfileStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileState&&(identical(other.user, user) || other.user == user)&&const DeepCollectionEquality().equals(other._posts, _posts)&&const DeepCollectionEquality().equals(other.nextPageToken, nextPageToken)&&const DeepCollectionEquality().equals(other.message, message)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.fetchingMore, fetchingMore) || other.fetchingMore == fetchingMore)&&(identical(other.isLastPage, isLastPage) || other.isLastPage == isLastPage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileState&&(identical(other.user, user) || other.user == user)&&const DeepCollectionEquality().equals(other._posts, _posts)&&const DeepCollectionEquality().equals(other.nextPageToken, nextPageToken)&&(identical(other.message, message) || other.message == message)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.fetchingMore, fetchingMore) || other.fetchingMore == fetchingMore)&&(identical(other.isLastPage, isLastPage) || other.isLastPage == isLastPage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,user,const DeepCollectionEquality().hash(_posts),const DeepCollectionEquality().hash(nextPageToken),const DeepCollectionEquality().hash(message),isLoading,fetchingMore,isLastPage);
+int get hashCode => Object.hash(runtimeType,user,const DeepCollectionEquality().hash(_posts),const DeepCollectionEquality().hash(nextPageToken),message,isLoading,fetchingMore,isLastPage);
 
 @override
 String toString() {
@@ -937,7 +949,7 @@ $Res call({
 });
 
 
-@override $UserEntityCopyWith<$Res>? get user;
+@override $UserEntityCopyWith<$Res>? get user;@override $ScreenMessageCopyWith<$Res>? get message;
 
 }
 /// @nodoc
@@ -973,6 +985,18 @@ $UserEntityCopyWith<$Res>? get user {
 
   return $UserEntityCopyWith<$Res>(_self.user!, (value) {
     return _then(_self.copyWith(user: value));
+  });
+}/// Create a copy of ProfileState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get message {
+    if (_self.message == null) {
+    return null;
+  }
+
+  return $ScreenMessageCopyWith<$Res>(_self.message!, (value) {
+    return _then(_self.copyWith(message: value));
   });
 }
 }

@@ -294,12 +294,12 @@ $CommentsCardStateCopyWith<CommentsCardState> get copyWith => _$CommentsCardStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommentsCardState&&(identical(other.comment, comment) || other.comment == comment)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.message, message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommentsCardState&&(identical(other.comment, comment) || other.comment == comment)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,comment,isLoading,const DeepCollectionEquality().hash(message));
+int get hashCode => Object.hash(runtimeType,comment,isLoading,message);
 
 @override
 String toString() {
@@ -318,7 +318,7 @@ $Res call({
 });
 
 
-$CommentEntityCopyWith<$Res>? get comment;
+$CommentEntityCopyWith<$Res>? get comment;$ScreenMessageCopyWith<$Res>? get message;
 
 }
 /// @nodoc
@@ -350,6 +350,18 @@ $CommentEntityCopyWith<$Res>? get comment {
 
   return $CommentEntityCopyWith<$Res>(_self.comment!, (value) {
     return _then(_self.copyWith(comment: value));
+  });
+}/// Create a copy of CommentsCardState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get message {
+    if (_self.message == null) {
+    return null;
+  }
+
+  return $ScreenMessageCopyWith<$Res>(_self.message!, (value) {
+    return _then(_self.copyWith(message: value));
   });
 }
 }
@@ -500,12 +512,12 @@ _$CommentsCardStateCopyWith<_CommentsCardState> get copyWith => __$CommentsCardS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommentsCardState&&(identical(other.comment, comment) || other.comment == comment)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.message, message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommentsCardState&&(identical(other.comment, comment) || other.comment == comment)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,comment,isLoading,const DeepCollectionEquality().hash(message));
+int get hashCode => Object.hash(runtimeType,comment,isLoading,message);
 
 @override
 String toString() {
@@ -524,7 +536,7 @@ $Res call({
 });
 
 
-@override $CommentEntityCopyWith<$Res>? get comment;
+@override $CommentEntityCopyWith<$Res>? get comment;@override $ScreenMessageCopyWith<$Res>? get message;
 
 }
 /// @nodoc
@@ -557,6 +569,18 @@ $CommentEntityCopyWith<$Res>? get comment {
 
   return $CommentEntityCopyWith<$Res>(_self.comment!, (value) {
     return _then(_self.copyWith(comment: value));
+  });
+}/// Create a copy of CommentsCardState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get message {
+    if (_self.message == null) {
+    return null;
+  }
+
+  return $ScreenMessageCopyWith<$Res>(_self.message!, (value) {
+    return _then(_self.copyWith(message: value));
   });
 }
 }

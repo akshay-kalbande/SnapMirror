@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../common/messages/screen_message.dart';
+import '../../../common/messages/screen_message.dart';
 
 abstract class AppUtils {
   static void showInfoMessage(final BuildContext context, final String text) {

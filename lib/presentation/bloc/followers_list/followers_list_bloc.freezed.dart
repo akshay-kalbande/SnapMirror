@@ -418,12 +418,12 @@ $FollowersListStateCopyWith<FollowersListState> get copyWith => _$FollowersListS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FollowersListState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.user, user) || other.user == user)&&const DeepCollectionEquality().equals(other.followers, followers)&&const DeepCollectionEquality().equals(other.notification, notification));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FollowersListState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.user, user) || other.user == user)&&const DeepCollectionEquality().equals(other.followers, followers)&&(identical(other.notification, notification) || other.notification == notification));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,user,const DeepCollectionEquality().hash(followers),const DeepCollectionEquality().hash(notification));
+int get hashCode => Object.hash(runtimeType,isLoading,user,const DeepCollectionEquality().hash(followers),notification);
 
 @override
 String toString() {
@@ -442,7 +442,7 @@ $Res call({
 });
 
 
-$UserEntityCopyWith<$Res>? get user;
+$UserEntityCopyWith<$Res>? get user;$ScreenMessageCopyWith<$Res>? get notification;
 
 }
 /// @nodoc
@@ -475,6 +475,18 @@ $UserEntityCopyWith<$Res>? get user {
 
   return $UserEntityCopyWith<$Res>(_self.user!, (value) {
     return _then(_self.copyWith(user: value));
+  });
+}/// Create a copy of FollowersListState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get notification {
+    if (_self.notification == null) {
+    return null;
+  }
+
+  return $ScreenMessageCopyWith<$Res>(_self.notification!, (value) {
+    return _then(_self.copyWith(notification: value));
   });
 }
 }
@@ -632,12 +644,12 @@ _$FollowersListStateCopyWith<_FollowersListState> get copyWith => __$FollowersLi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FollowersListState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.user, user) || other.user == user)&&const DeepCollectionEquality().equals(other._followers, _followers)&&const DeepCollectionEquality().equals(other.notification, notification));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FollowersListState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.user, user) || other.user == user)&&const DeepCollectionEquality().equals(other._followers, _followers)&&(identical(other.notification, notification) || other.notification == notification));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,user,const DeepCollectionEquality().hash(_followers),const DeepCollectionEquality().hash(notification));
+int get hashCode => Object.hash(runtimeType,isLoading,user,const DeepCollectionEquality().hash(_followers),notification);
 
 @override
 String toString() {
@@ -656,7 +668,7 @@ $Res call({
 });
 
 
-@override $UserEntityCopyWith<$Res>? get user;
+@override $UserEntityCopyWith<$Res>? get user;@override $ScreenMessageCopyWith<$Res>? get notification;
 
 }
 /// @nodoc
@@ -690,6 +702,18 @@ $UserEntityCopyWith<$Res>? get user {
 
   return $UserEntityCopyWith<$Res>(_self.user!, (value) {
     return _then(_self.copyWith(user: value));
+  });
+}/// Create a copy of FollowersListState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get notification {
+    if (_self.notification == null) {
+    return null;
+  }
+
+  return $ScreenMessageCopyWith<$Res>(_self.notification!, (value) {
+    return _then(_self.copyWith(notification: value));
   });
 }
 }

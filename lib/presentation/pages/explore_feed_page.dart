@@ -356,7 +356,7 @@ class _ExploreFeedPageState extends State<ExploreFeedPage> {
             BlocConsumer<ExploreFeedBloc, ExploreFeedState>(
               listener: (context, state) {
                 if (state.message != null) {
-                  AppUtils.showNotification(context, state.message!);
+                  // AppUtils.showNotification(context, state.message!);
                 }
               },
               builder: (context, state) => SliverMainAxisGroup(

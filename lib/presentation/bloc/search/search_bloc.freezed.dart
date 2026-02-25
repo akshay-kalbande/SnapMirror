@@ -283,12 +283,12 @@ $SearchStateCopyWith<SearchState> get copyWith => _$SearchStateCopyWithImpl<Sear
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchState&&const DeepCollectionEquality().equals(other.users, users)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.message, message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchState&&const DeepCollectionEquality().equals(other.users, users)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(users),isLoading,const DeepCollectionEquality().hash(message));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(users),isLoading,message);
 
 @override
 String toString() {
@@ -307,7 +307,7 @@ $Res call({
 });
 
 
-
+$ScreenMessageCopyWith<$Res>? get message;
 
 }
 /// @nodoc
@@ -328,7 +328,19 @@ as bool,message: freezed == message ? _self.message : message // ignore: cast_nu
 as ScreenMessage?,
   ));
 }
+/// Create a copy of SearchState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get message {
+    if (_self.message == null) {
+    return null;
+  }
 
+  return $ScreenMessageCopyWith<$Res>(_self.message!, (value) {
+    return _then(_self.copyWith(message: value));
+  });
+}
 }
 
 
@@ -483,12 +495,12 @@ _$SearchStateCopyWith<_SearchState> get copyWith => __$SearchStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchState&&const DeepCollectionEquality().equals(other._users, _users)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.message, message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchState&&const DeepCollectionEquality().equals(other._users, _users)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_users),isLoading,const DeepCollectionEquality().hash(message));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_users),isLoading,message);
 
 @override
 String toString() {
@@ -507,7 +519,7 @@ $Res call({
 });
 
 
-
+@override $ScreenMessageCopyWith<$Res>? get message;
 
 }
 /// @nodoc
@@ -529,7 +541,19 @@ as ScreenMessage?,
   ));
 }
 
+/// Create a copy of SearchState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get message {
+    if (_self.message == null) {
+    return null;
+  }
 
+  return $ScreenMessageCopyWith<$Res>(_self.message!, (value) {
+    return _then(_self.copyWith(message: value));
+  });
+}
 }
 
 // dart format on

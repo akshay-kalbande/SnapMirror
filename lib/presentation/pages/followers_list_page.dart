@@ -34,7 +34,7 @@ class FollowersListPage extends StatelessWidget {
             child: BlocConsumer<FollowersListBloc, FollowersListState>(
               listener: (context, state) {
                 if (state.notification != null) {
-                  AppUtils.showNotification(context, state.notification!);
+                  // AppUtils.showNotification(context, state.notification!);
                 }
               },
               // buildWhen: (previous, current) => true,

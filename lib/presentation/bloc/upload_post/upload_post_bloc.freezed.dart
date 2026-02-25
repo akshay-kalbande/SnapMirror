@@ -399,12 +399,12 @@ $UploadPostStateCopyWith<UploadPostState> get copyWith => _$UploadPostStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UploadPostState&&(identical(other.post, post) || other.post == post)&&const DeepCollectionEquality().equals(other.file, file)&&(identical(other.caption, caption) || other.caption == caption)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.pickImage, pickImage) || other.pickImage == pickImage)&&const DeepCollectionEquality().equals(other.notification, notification));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UploadPostState&&(identical(other.post, post) || other.post == post)&&const DeepCollectionEquality().equals(other.file, file)&&(identical(other.caption, caption) || other.caption == caption)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.pickImage, pickImage) || other.pickImage == pickImage)&&(identical(other.notification, notification) || other.notification == notification));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,post,const DeepCollectionEquality().hash(file),caption,isLoading,pickImage,const DeepCollectionEquality().hash(notification));
+int get hashCode => Object.hash(runtimeType,post,const DeepCollectionEquality().hash(file),caption,isLoading,pickImage,notification);
 
 @override
 String toString() {
@@ -423,7 +423,7 @@ $Res call({
 });
 
 
-
+$ScreenMessageCopyWith<$Res>? get notification;
 
 }
 /// @nodoc
@@ -447,7 +447,19 @@ as bool,notification: freezed == notification ? _self.notification : notificatio
 as ScreenMessage?,
   ));
 }
+/// Create a copy of UploadPostState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get notification {
+    if (_self.notification == null) {
+    return null;
+  }
 
+  return $ScreenMessageCopyWith<$Res>(_self.notification!, (value) {
+    return _then(_self.copyWith(notification: value));
+  });
+}
 }
 
 
@@ -599,12 +611,12 @@ _$UploadPostStateCopyWith<_UploadPostState> get copyWith => __$UploadPostStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UploadPostState&&(identical(other.post, post) || other.post == post)&&const DeepCollectionEquality().equals(other.file, file)&&(identical(other.caption, caption) || other.caption == caption)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.pickImage, pickImage) || other.pickImage == pickImage)&&const DeepCollectionEquality().equals(other.notification, notification));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UploadPostState&&(identical(other.post, post) || other.post == post)&&const DeepCollectionEquality().equals(other.file, file)&&(identical(other.caption, caption) || other.caption == caption)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.pickImage, pickImage) || other.pickImage == pickImage)&&(identical(other.notification, notification) || other.notification == notification));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,post,const DeepCollectionEquality().hash(file),caption,isLoading,pickImage,const DeepCollectionEquality().hash(notification));
+int get hashCode => Object.hash(runtimeType,post,const DeepCollectionEquality().hash(file),caption,isLoading,pickImage,notification);
 
 @override
 String toString() {
@@ -623,7 +635,7 @@ $Res call({
 });
 
 
-
+@override $ScreenMessageCopyWith<$Res>? get notification;
 
 }
 /// @nodoc
@@ -648,7 +660,19 @@ as ScreenMessage?,
   ));
 }
 
+/// Create a copy of UploadPostState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScreenMessageCopyWith<$Res>? get notification {
+    if (_self.notification == null) {
+    return null;
+  }
 
+  return $ScreenMessageCopyWith<$Res>(_self.notification!, (value) {
+    return _then(_self.copyWith(notification: value));
+  });
+}
 }
 
 // dart format on
