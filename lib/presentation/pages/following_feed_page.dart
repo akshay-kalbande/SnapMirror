@@ -96,10 +96,12 @@ class _FollowingFeedPageState extends State<FollowingFeedPage> {
             if (screenWidth < webScreenSize)
               SliverAppBar(
                 backgroundColor: Colors.black,
-                title: SvgPicture.asset(
-                  'assets/images/ic_instagram.svg',
-                  colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                  height: 32,
+                elevation: 10,
+                title: Image.asset(
+                  'assets/images/word_snap.png',
+                  color: Colors.white,
+                  fit: BoxFit.fill,
+                  height: 48,
                 ),
                 actions: [
                   IconButton(
