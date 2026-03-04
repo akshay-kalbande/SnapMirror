@@ -30,7 +30,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     emit(state.copyWith(isLoading: true));
     (await searchUserUsecase(event.text)).fold(
       (l) {
-        print('Search Failure: ${l.message}');
         return emit(
           state.copyWith(
             isLoading: false,
@@ -43,7 +42,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         );
       },
       (r) {
-        print('Search Success: ${r.length}');
         return emit(state.copyWith(isLoading: false, message: null, users: r));
       },
     );

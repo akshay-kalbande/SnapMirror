@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/route/routes.dart';
-import '../../core//utils/app_utils.dart';
+import '../../core/utils/app_utils.dart';
 import '../../core/utils/utils.dart';
 import '../bloc/upload/upload_bloc.dart';
 import '../bloc/upload_post/upload_post_bloc.dart';
@@ -66,7 +66,7 @@ class _UploadPostPageState extends State<UploadPostPage> {
           }
           if (state.notification == null) return;
           AppUtils.showNotification(context, state.notification!);
-          if (!state.notification!.isError) context.pushReplacement('/post');
+          if (!state.notification!.isError) context.go(Routes.home);
         },
         builder: (context, state) => AppPage(
           isLoading: state.isLoading,

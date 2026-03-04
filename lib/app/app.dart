@@ -9,7 +9,6 @@ import '../presentation/bloc/upload/upload_bloc.dart';
 import 'injection_container.dart';
 
 class SnapMirror extends StatelessWidget {
-  final AppRouter appRouter = AppRouter(sl<AuthBloc>());
   SnapMirror({super.key});
 
   @override
@@ -47,8 +46,7 @@ class SnapMirror extends StatelessWidget {
                   theme: ThemeData.dark().copyWith(
                     scaffoldBackgroundColor: AppColors.mobileBackgroundColor,
                   ),
-                  // routerConfig: sl<AppRouter>().router,
-                  routerConfig: appRouter.router,
+                  routerConfig: sl<AppRouter>().router,
 
                   // routerConfig: AppRouter(sl()).router,
                   // routerDelegate: appRouter.router.routerDelegate,

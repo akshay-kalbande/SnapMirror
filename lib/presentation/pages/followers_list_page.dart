@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/app_service.dart';
 import '../../core/route/routes.dart';
-import '../../core//utils/app_utils.dart';
+
 import '../bloc/followers_list/followers_list_bloc.dart';
 
 class FollowersListPage extends StatelessWidget {

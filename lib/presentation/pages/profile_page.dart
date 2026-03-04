@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/app_service.dart';
 import '../../core/route/routes.dart';
 import '../../domain/entities/user_entity.dart';
-import '../../core//utils/app_utils.dart';
+import '../../core/utils/app_utils.dart';
 import '../../core/utils/dimensions.dart';
 import '../bloc/auth/auth_bloc.dart';
 import '../bloc/profile/profile_bloc.dart';
@@ -128,39 +128,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         child: Row(
                           children: [
-                            // Container(
-                            //   height: 64,
-                            //   width: 64,
-                            //   decoration: BoxDecoration(
-                            //     shape: BoxShape.circle,
-                            //     image: DecorationImage(
-                            //       image: CachedNetworkImageProvider(
-                            //         state.user!.profileImageUrl,
-                            //       ),
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //   ),
-                            // ),
                             ProfileImage(
                               profileImageUrl: state.user!.profileImageUrl,
                               isSmall: false,
                             ),
-                            // CircleAvatar(
-                            //   radius: 32,
-                            //   backgroundColor: Colors.grey[200],
-                            //   child: ClipOval(
-                            //     child: CachedNetworkImage(
-                            //       imageUrl: state.user!.profileImageUrl,
-                            //       width: 64,
-                            //       height: 64,
-                            //       fit: BoxFit.cover,
-                            //       placeholder: (context, url) =>
-                            //           const CircularProgressIndicator(),
-                            //       errorWidget: (context, url, error) =>
-                            //           const Icon(Icons.error),
-                            //     ),
-                            //   ),
-                            // ),
                             const SizedBox(width: 32),
                             Expanded(
                               flex: 1,
@@ -254,58 +225,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                                 child: InkWell(
                                   onTap: () => action(state.user!),
-                                  // onTap: () async {
-                                  //   if (user.uid ==
-                                  //       AppService.instance.user.uid) {
-                                  //     context.read<AuthBloc>().add(
-                                  //       AuthEvent.logout(),
-                                  //     );
-                                  //   }
-                                  //   // if (text == 'Sign Out') {
-                                  //   //   // Navigator.of(context).push(
-                                  //   //   //     MaterialPageRoute(
-                                  //   //   //         builder: (context) =>
-                                  //   //   //             EditProfile()));
-                                  //   //   String res = await AuthMethods().signOutUser();
-                                  //   //   if (res == 'success') {
-                                  //   //     Navigator.of(context).pushReplacement(
-                                  //   //       MaterialPageRoute(
-                                  //   //         builder: (context) => const LoginScreen(),
-                                  //   //       ),
-                                  //   //     );
-                                  //   //   }
-                                  //   // } else {
-                                  //   //   if (snapshot.data!
-                                  //   //       .get('followers')
-                                  //   //       .contains(currentUserUid)) {
-                                  //   //     FirestoreMethods().removeFollower(
-                                  //   //       currentUserUid,
-                                  //   //       widget.user.uid,
-                                  //   //     );
-                                  //   //     setState(() {
-                                  //   //       text = 'follow';
-                                  //   //       icon = Icons.add_box;
-                                  //   //       backColor = Colors.blueAccent;
-                                  //   //       textColor = Colors.black;
-                                  //   //       iconColor = Colors.black;
-                                  //   //       borderColor = Colors.black;
-                                  //   //     });
-                                  //   //   } else {
-                                  //   //     FirestoreMethods().addFollower(
-                                  //   //       currentUserUid,
-                                  //   //       widget.user.uid,
-                                  //   //     );
-                                  //   //     setState(() {
-                                  //   //       text = 'Unfollow';
-                                  //   //       icon = Icons.person;
-                                  //   //       backColor = Colors.white;
-                                  //   //       textColor = Colors.black;
-                                  //   //       iconColor = Colors.black;
-                                  //   //       borderColor = Colors.black;
-                                  //   //     });
-                                  //   //   }
-                                  //   // }
-                                  // },
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),

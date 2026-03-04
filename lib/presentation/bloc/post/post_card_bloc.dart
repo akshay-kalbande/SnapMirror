@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -66,14 +68,13 @@ class PostCardBloc extends HydratedBloc<PostCardEvent, PostCardState> {
   }
 
   void _initializeSubscription() async {
-    print('initializing subscription');
     final res = await postFeedSubscriptionUsecase(postID);
-    res.fold((l) => print('Error in getting post stream'), (r) {
+    res.fold((l) => debugPrint('Error getting post stream: ${l.message}'), (r) {
       _feedSubscription = r.listen(
         (event) => emit(PostCardState.loaded(event)),
         // (event) => add(PostEvent.postUpdated(event)),
         onError: (error) {
-          print('Stream Error: $error');
+          debugPrint('Stream Error: $error');
         },
       );
     });
@@ -82,13 +83,11 @@ class PostCardBloc extends HydratedBloc<PostCardEvent, PostCardState> {
   @override
   PostCardState? fromJson(Map<String, dynamic> json) {
     try {
-      print('restoring post from storage');
       json['datePublished'] = Timestamp.fromDate(
         DateTime.parse(json['datePublished']),
       );
       return PostCardState.loaded(PostModel.fromJson(json).entity);
     } catch (e) {
-      print('failed to load from storage: $e');
       return PostCardState.error(e.toString());
     }
   }
@@ -100,7 +99,6 @@ class PostCardBloc extends HydratedBloc<PostCardEvent, PostCardState> {
           PostModel.fromEntity(post).toJson()
             ..['datePublished'] = post.datePublished.toIso8601String(),
     );
-    print('💾 Saving to storage: $json');
     return json;
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/route/routes.dart';
 import '../../core/utils/dimensions.dart';
-import '../../core//utils/app_utils.dart';
+
 import '../bloc/explore_feed/explore_feed_bloc.dart';
 import '../bloc/search/search_bloc.dart';
 import '../widgets/post_image.dart';
@@ -57,7 +57,6 @@ class _ExploreFeedPageState extends State<ExploreFeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.width;
     final bloc = context.read<ExploreFeedBloc>();
     return Scaffold(
       body: RefreshIndicator(

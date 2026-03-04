@@ -88,6 +88,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await Future.delayed(const Duration(milliseconds: 300));
     (await _logoutUserUsecase(
       NoParams(),
-    )).fold((l) => null, (r) => AuthState.unauthenticated());
+    )).fold((l) => null, (r) => emit(AuthState.unauthenticated()));
   }
 }

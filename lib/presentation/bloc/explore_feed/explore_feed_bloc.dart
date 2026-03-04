@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../common/converters/page_result_string_converter.dart';
-import '../../../common/messages//screen_message.dart';
+import '../../../common/messages/screen_message.dart';
 import '../../../common/page_result.dart';
 import '../../../domain/entities/page_request_entity.dart';
 import '../../../domain/entities/post_entity.dart';
@@ -32,7 +32,10 @@ class ExploreFeedBloc extends Bloc<ExploreFeedEvent, ExploreFeedState> {
   FutureOr<void> _onRefreshed(
     _Refreshed event,
     Emitter<ExploreFeedState> emit,
-  ) {}
+  ) async {
+    emit(state.copyWith(isLoading: true, posts: null));
+    emit(await _fetchFeed());
+  }
 
   FutureOr<void> _onFetchMore(
     _FetchMore event,
@@ -56,7 +59,6 @@ class ExploreFeedBloc extends Bloc<ExploreFeedEvent, ExploreFeedState> {
     );
     return res.fold(
       (l) {
-        print('Error: ${l.message}');
         return state.copyWith(
           isLoading: false,
           message: ScreenMessage(
@@ -67,12 +69,12 @@ class ExploreFeedBloc extends Bloc<ExploreFeedEvent, ExploreFeedState> {
         );
       },
       (r) {
-        print('Data: ${r.toString()}');
+        final currentItems = state.posts?.items ?? [];
         return state.copyWith(
           isLoading: false,
           message: null,
           posts: PageResult(
-            items: [...state.posts?.items ?? [], ...r.items],
+            items: [...currentItems, ...r.items],
             nextPageToken: r.nextPageToken,
             isLastPage: r.isLastPage,
             totalItemCount: r.totalItemCount,

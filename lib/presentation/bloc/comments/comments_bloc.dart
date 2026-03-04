@@ -27,7 +27,6 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
   }
 
   FutureOr<void> _onStarted(_Started event, Emitter<CommentsState> emit) async {
-    print('fetching comments');
     (await getCommentsUsecase(
       PageRequestEntity(
         nextPageToken: state.comments?.nextPageToken,

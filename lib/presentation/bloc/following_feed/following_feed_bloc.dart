@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
@@ -58,11 +59,11 @@ class FollowingFeedBloc
         ),
       ),
       (r) async {
+        final currentItems = currRes.items;
         return FollowingFeedState(
-          posts: PageResult.fromEntity(r).copyWith(
-            items: [...currRes.items, ...r.items],
-            fetchingMore: false,
-          ),
+          posts: PageResult.fromEntity(
+            r,
+          ).copyWith(items: [...currentItems, ...r.items], fetchingMore: false),
         );
       },
     );
@@ -86,7 +87,7 @@ class FollowingFeedBloc
     try {
       return FollowingFeedState.fromJson(json);
     } catch (e) {
-      print('Failed to get following bloc state from storage');
+      debugPrint('Failed to get following bloc state from storage');
       return null;
     }
   }
@@ -96,7 +97,7 @@ class FollowingFeedBloc
     try {
       return state.toJson();
     } catch (e) {
-      print('Failed to save following bloc state to storage');
+      debugPrint('Failed to save following bloc state to storage');
       return null;
     }
   }
@@ -104,9 +105,9 @@ class FollowingFeedBloc
   FutureOr<void> _onRefreshed(
     _Refreshed event,
     Emitter<FollowingFeedState> emit,
-  ) {
-    //TODO
-    add(FollowingFeedEvent.started());
+  ) async {
+    emit(state.copyWith(isLoading: true, posts: null));
+    emit(await _fetchFeed());
   }
 
   FutureOr<void> _onNewPostAdded(

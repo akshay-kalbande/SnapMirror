@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                     TextFieldInput(
                       textEditingController: passController,
                       hintText: AppStrings.enterPass,
-                      textInputType: TextInputType.emailAddress,
+                      textInputType: TextInputType.visiblePassword,
                       isPass: true,
                     ),
                     const SizedBox(height: 24),

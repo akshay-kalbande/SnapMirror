@@ -18,15 +18,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     on<_Upload>(_onUpload);
   }
 
-  FutureOr<void> _onStarted(_Started event, Emitter<UploadState> emit) async {
-    // emit(state.copyWith(isUploading: true, progress: 0));
-    // for (int i = 1; i <= 10; i++) {
-    //   await Future.delayed(const Duration(milliseconds: 500));
-    //   emit(state.copyWith(progress: i / 10));
-    // }
-    // await Future.delayed(const Duration(milliseconds: 200));
-    // emit(state.copyWith(isUploading: false, progress: 0));
-  }
+  FutureOr<void> _onStarted(_Started event, Emitter<UploadState> emit) async {}
 
   FutureOr<void> _onUpload(_Upload event, Emitter<UploadState> emit) async {
     if (!state.canUpload) return;

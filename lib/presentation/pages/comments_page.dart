@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app/injection_container.dart';
 import '../../core/app_service.dart';
 import '../../core/theme/app_colors.dart';
-import '../../core//utils/app_utils.dart';
+import '../../core/utils/app_utils.dart';
 import '../bloc/comments/comments_bloc.dart';
 import '../bloc/comments_card/comments_card_bloc.dart';
 import '../widgets/comment_card.dart';
@@ -46,7 +46,7 @@ class _CommentsPageState extends State<CommentsPage> {
               CircleAvatar(
                 radius: 18,
                 child: CachedNetworkImage(
-                  imageUrl: user.profileImageUrl ?? '',
+                  imageUrl: user.profileImageUrl,
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),

@@ -1,5 +1,5 @@
 name: snapmirror
-description: "A new Flutter project."
+description: "A social media app, built with Flutter and Firebase."
 publish_to: 'none'
 
 version: 1.0.0+1

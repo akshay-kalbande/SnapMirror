@@ -108,14 +108,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         regStatus: null,
       ),
     );
-    if (!state.formKey.currentState!.validate()) {
-      print('invalid state');
-      return;
-    }
-    if (!state.photo.isValid) {
-      print('profile photo invalid');
-      return;
-    }
+    if (!state.formKey.currentState!.validate()) return;
+    if (!state.photo.isValid) return;
 
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
 
@@ -155,7 +149,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         ),
       ),
       onData: (data) {
-        print('Status Update: $data');
         return state.copyWith(regStatus: data);
       },
       onError: (error, stackTrace) {

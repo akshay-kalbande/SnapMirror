@@ -176,9 +176,11 @@ class AppRouter extends ChangeNotifier {
                     _authBloc.state.whenOrNull(
                       authenticated: (u, authLoading) => user = u,
                     );
-                    context.read<ProfileBloc>().add(
-                      ProfileEvent.started(user!),
-                    );
+                    if (user != null) {
+                      context.read<ProfileBloc>().add(
+                        ProfileEvent.started(user!),
+                      );
+                    }
                     return _buildPageWithDefaultTransition(
                       context: context,
                       state: state,
@@ -340,10 +342,10 @@ class AppRouter extends ChangeNotifier {
       if (!AppService.instance.initialSplashShown) return null;
       return loggedIn ? Routes.home : Routes.login;
     }
-    if (!loggedIn && !Routes.isPublicRoute(state.matchedLocation ?? '')) {
+    if (!loggedIn && !Routes.isPublicRoute(state.matchedLocation)) {
       return Routes.login;
     }
-    if (loggedIn && Routes.isPublicRoute(state.matchedLocation ?? '')) {
+    if (loggedIn && Routes.isPublicRoute(state.matchedLocation)) {
       return Routes.home;
     }
     return null;

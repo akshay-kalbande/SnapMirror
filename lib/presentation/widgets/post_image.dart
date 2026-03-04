@@ -36,7 +36,7 @@ class PostImage extends StatelessWidget {
         // placeholder: (context, url) =>
         //     Center(child: const CircularProgressIndicator()),
         errorWidget: (context, url, error) {
-          print('Error: ${error.toString()}');
+          debugPrint('PostImage load error: ${error.toString()}');
           return Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
