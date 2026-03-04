@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/injection_container.dart';
 import '../../core/app_service.dart';
+import '../../core/route/routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/app_utils.dart';
 import '../bloc/comments/comments_bloc.dart';
@@ -42,12 +44,20 @@ class _CommentsPageState extends State<CommentsPage> {
           ),
           padding: const EdgeInsets.only(left: 16, right: 8),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircleAvatar(
-                radius: 18,
-                child: CachedNetworkImage(
-                  imageUrl: user.profileImageUrl,
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+              // CircleAvatar(
+              //   radius: 18,
+              //   child: CachedNetworkImage(
+              //     imageUrl: user.profileImageUrl,
+              //     errorWidget: (context, url, error) => const Icon(Icons.error),
+              //   ),
+              // ),
+              InkWell(
+                onTap: () => context.push('${Routes.user}/${user.uid}'),
+                child: CircleAvatar(
+                  radius: 18,
+                  backgroundImage: NetworkImage(user.profileImageUrl),
                 ),
               ),
               Expanded(
@@ -58,7 +68,7 @@ class _CommentsPageState extends State<CommentsPage> {
                       hintText: 'comment as ${user.username}',
                       border: InputBorder.none,
                     ),
-                    maxLines: 3,
+                    maxLines: 1,
                     controller: controller,
                   ),
                 ),

@@ -48,6 +48,12 @@ class _BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: navigationShell.currentIndex,
+      type: BottomNavigationBarType.fixed,
+      fixedColor: Colors.white,
+      iconSize: 24,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      enableFeedback: false,
       onTap: (value) {
         navigationShell.goBranch(
           value,
@@ -56,24 +62,28 @@ class _BottomNavBar extends StatelessWidget {
       },
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home, color: AppColors.blueColor),
+          icon: Icon(Icons.home_outlined),
+          activeIcon: Icon(Icons.home),
           label: 'Home',
-          backgroundColor: AppColors.primaryColor,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search, color: AppColors.blueColor),
+          icon: Icon(Icons.search_outlined),
+          activeIcon: Icon(Icons.search),
           label: 'Explore',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.add, color: AppColors.blueColor),
+          icon: Icon(Icons.add_circle_outline),
+          activeIcon: Icon(Icons.add_circle),
           label: 'Upload',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite, color: AppColors.blueColor),
+          icon: Icon(Icons.favorite_border),
+          activeIcon: Icon(Icons.favorite),
           label: 'Notifications',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person, color: AppColors.blueColor),
+          icon: Icon(Icons.person_outline),
+          activeIcon: Icon(Icons.person),
           label: 'Profile',
         ),
       ],
