@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../common/converters/page_result_string_converter.dart';
 import '../../../common/messages/screen_message.dart';
 import '../../../common/page_result.dart';
+import '../../../core/app_service.dart';
 import '../../../domain/entities/page_request_entity.dart';
 import '../../../domain/entities/post_entity.dart';
 import '../../../domain/usecases/get_explore_feed_usecase.dart';
@@ -51,6 +52,7 @@ class ExploreFeedBloc extends Bloc<ExploreFeedEvent, ExploreFeedState> {
   Future<ExploreFeedState> _fetchFeed() async {
     final res = await getExploreFeedUsecase(
       PageRequestEntity(
+        uid: AppService.instance.user.uid,
         nextPageToken: state.posts?.nextPageToken,
         sortBy: 'datePublished',
         pageSize: 25,

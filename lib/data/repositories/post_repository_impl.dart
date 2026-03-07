@@ -54,15 +54,15 @@ class PostRepositoryImpl implements PostRepository {
       final feedRes = await postRemoteDataSource.fetchFollowingFeed(
         PageRequestModel.fromEntity(pageRequest),
       );
-      List<PostEntity> posts = [];
+      // List<PostEntity> posts = [];
       final res = feedRes.toEntity<String>(
-        itemMapper: (model) {
-          final post = model.entity;
-          posts.add(post);
-          return post.postId;
+        itemMapper: (id) {
+          // final post = model.entity;
+          // posts.add(post);
+          return id;
         },
       );
-      _updateAll(posts);
+      // _updateAll(posts);
       return Right(res);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

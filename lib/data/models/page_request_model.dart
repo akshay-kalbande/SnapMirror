@@ -8,6 +8,7 @@ part 'page_request_model.freezed.dart';
 sealed class PageRequestModel with _$PageRequestModel {
   const PageRequestModel._();
   const factory PageRequestModel({
+    required String uid,
     Object? nextPageToken,
     @Default('timestamp') String sortBy,
     @Default(30) int pageSize,
@@ -17,6 +18,7 @@ sealed class PageRequestModel with _$PageRequestModel {
 
   factory PageRequestModel.fromEntity(final PageRequestEntity entity) =>
       PageRequestModel(
+        uid: entity.uid,
         nextPageToken: entity.nextPageToken,
         pageSize: entity.pageSize,
         sortBy: entity.sortBy,
@@ -25,6 +27,7 @@ sealed class PageRequestModel with _$PageRequestModel {
       );
 
   PageRequestEntity get entity => PageRequestEntity(
+    uid: uid,
     sortType: sortType,
     sortBy: sortBy,
     pageSize: pageSize,

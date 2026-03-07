@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PageRequestModel {
 
- Object? get nextPageToken; String get sortBy; int get pageSize; PageSortType get sortType; Map<String, dynamic> get isEqualToFieldMap;
+ String get uid; Object? get nextPageToken; String get sortBy; int get pageSize; PageSortType get sortType; Map<String, dynamic> get isEqualToFieldMap;
 /// Create a copy of PageRequestModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PageRequestModelCopyWith<PageRequestModel> get copyWith => _$PageRequestModelCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PageRequestModel&&const DeepCollectionEquality().equals(other.nextPageToken, nextPageToken)&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy)&&(identical(other.pageSize, pageSize) || other.pageSize == pageSize)&&(identical(other.sortType, sortType) || other.sortType == sortType)&&const DeepCollectionEquality().equals(other.isEqualToFieldMap, isEqualToFieldMap));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PageRequestModel&&(identical(other.uid, uid) || other.uid == uid)&&const DeepCollectionEquality().equals(other.nextPageToken, nextPageToken)&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy)&&(identical(other.pageSize, pageSize) || other.pageSize == pageSize)&&(identical(other.sortType, sortType) || other.sortType == sortType)&&const DeepCollectionEquality().equals(other.isEqualToFieldMap, isEqualToFieldMap));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(nextPageToken),sortBy,pageSize,sortType,const DeepCollectionEquality().hash(isEqualToFieldMap));
+int get hashCode => Object.hash(runtimeType,uid,const DeepCollectionEquality().hash(nextPageToken),sortBy,pageSize,sortType,const DeepCollectionEquality().hash(isEqualToFieldMap));
 
 @override
 String toString() {
-  return 'PageRequestModel(nextPageToken: $nextPageToken, sortBy: $sortBy, pageSize: $pageSize, sortType: $sortType, isEqualToFieldMap: $isEqualToFieldMap)';
+  return 'PageRequestModel(uid: $uid, nextPageToken: $nextPageToken, sortBy: $sortBy, pageSize: $pageSize, sortType: $sortType, isEqualToFieldMap: $isEqualToFieldMap)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PageRequestModelCopyWith<$Res>  {
   factory $PageRequestModelCopyWith(PageRequestModel value, $Res Function(PageRequestModel) _then) = _$PageRequestModelCopyWithImpl;
 @useResult
 $Res call({
- Object? nextPageToken, String sortBy, int pageSize, PageSortType sortType, Map<String, dynamic> isEqualToFieldMap
+ String uid, Object? nextPageToken, String sortBy, int pageSize, PageSortType sortType, Map<String, dynamic> isEqualToFieldMap
 });
 
 
@@ -62,9 +62,10 @@ class _$PageRequestModelCopyWithImpl<$Res>
 
 /// Create a copy of PageRequestModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? nextPageToken = freezed,Object? sortBy = null,Object? pageSize = null,Object? sortType = null,Object? isEqualToFieldMap = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uid = null,Object? nextPageToken = freezed,Object? sortBy = null,Object? pageSize = null,Object? sortType = null,Object? isEqualToFieldMap = null,}) {
   return _then(_self.copyWith(
-nextPageToken: freezed == nextPageToken ? _self.nextPageToken : nextPageToken ,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
+uid: null == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
+as String,nextPageToken: freezed == nextPageToken ? _self.nextPageToken : nextPageToken ,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
 as String,pageSize: null == pageSize ? _self.pageSize : pageSize // ignore: cast_nullable_to_non_nullable
 as int,sortType: null == sortType ? _self.sortType : sortType // ignore: cast_nullable_to_non_nullable
 as PageSortType,isEqualToFieldMap: null == isEqualToFieldMap ? _self.isEqualToFieldMap : isEqualToFieldMap // ignore: cast_nullable_to_non_nullable
@@ -150,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Object? nextPageToken,  String sortBy,  int pageSize,  PageSortType sortType,  Map<String, dynamic> isEqualToFieldMap)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uid,  Object? nextPageToken,  String sortBy,  int pageSize,  PageSortType sortType,  Map<String, dynamic> isEqualToFieldMap)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PageRequestModel() when $default != null:
-return $default(_that.nextPageToken,_that.sortBy,_that.pageSize,_that.sortType,_that.isEqualToFieldMap);case _:
+return $default(_that.uid,_that.nextPageToken,_that.sortBy,_that.pageSize,_that.sortType,_that.isEqualToFieldMap);case _:
   return orElse();
 
 }
@@ -171,10 +172,10 @@ return $default(_that.nextPageToken,_that.sortBy,_that.pageSize,_that.sortType,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Object? nextPageToken,  String sortBy,  int pageSize,  PageSortType sortType,  Map<String, dynamic> isEqualToFieldMap)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uid,  Object? nextPageToken,  String sortBy,  int pageSize,  PageSortType sortType,  Map<String, dynamic> isEqualToFieldMap)  $default,) {final _that = this;
 switch (_that) {
 case _PageRequestModel():
-return $default(_that.nextPageToken,_that.sortBy,_that.pageSize,_that.sortType,_that.isEqualToFieldMap);}
+return $default(_that.uid,_that.nextPageToken,_that.sortBy,_that.pageSize,_that.sortType,_that.isEqualToFieldMap);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -188,10 +189,10 @@ return $default(_that.nextPageToken,_that.sortBy,_that.pageSize,_that.sortType,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Object? nextPageToken,  String sortBy,  int pageSize,  PageSortType sortType,  Map<String, dynamic> isEqualToFieldMap)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uid,  Object? nextPageToken,  String sortBy,  int pageSize,  PageSortType sortType,  Map<String, dynamic> isEqualToFieldMap)?  $default,) {final _that = this;
 switch (_that) {
 case _PageRequestModel() when $default != null:
-return $default(_that.nextPageToken,_that.sortBy,_that.pageSize,_that.sortType,_that.isEqualToFieldMap);case _:
+return $default(_that.uid,_that.nextPageToken,_that.sortBy,_that.pageSize,_that.sortType,_that.isEqualToFieldMap);case _:
   return null;
 
 }
@@ -203,9 +204,10 @@ return $default(_that.nextPageToken,_that.sortBy,_that.pageSize,_that.sortType,_
 
 
 class _PageRequestModel extends PageRequestModel {
-  const _PageRequestModel({this.nextPageToken, this.sortBy = 'timestamp', this.pageSize = 30, this.sortType = PageSortType.desc, required final  Map<String, dynamic> isEqualToFieldMap}): _isEqualToFieldMap = isEqualToFieldMap,super._();
+  const _PageRequestModel({required this.uid, this.nextPageToken, this.sortBy = 'timestamp', this.pageSize = 30, this.sortType = PageSortType.desc, required final  Map<String, dynamic> isEqualToFieldMap}): _isEqualToFieldMap = isEqualToFieldMap,super._();
   
 
+@override final  String uid;
 @override final  Object? nextPageToken;
 @override@JsonKey() final  String sortBy;
 @override@JsonKey() final  int pageSize;
@@ -228,16 +230,16 @@ _$PageRequestModelCopyWith<_PageRequestModel> get copyWith => __$PageRequestMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PageRequestModel&&const DeepCollectionEquality().equals(other.nextPageToken, nextPageToken)&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy)&&(identical(other.pageSize, pageSize) || other.pageSize == pageSize)&&(identical(other.sortType, sortType) || other.sortType == sortType)&&const DeepCollectionEquality().equals(other._isEqualToFieldMap, _isEqualToFieldMap));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PageRequestModel&&(identical(other.uid, uid) || other.uid == uid)&&const DeepCollectionEquality().equals(other.nextPageToken, nextPageToken)&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy)&&(identical(other.pageSize, pageSize) || other.pageSize == pageSize)&&(identical(other.sortType, sortType) || other.sortType == sortType)&&const DeepCollectionEquality().equals(other._isEqualToFieldMap, _isEqualToFieldMap));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(nextPageToken),sortBy,pageSize,sortType,const DeepCollectionEquality().hash(_isEqualToFieldMap));
+int get hashCode => Object.hash(runtimeType,uid,const DeepCollectionEquality().hash(nextPageToken),sortBy,pageSize,sortType,const DeepCollectionEquality().hash(_isEqualToFieldMap));
 
 @override
 String toString() {
-  return 'PageRequestModel(nextPageToken: $nextPageToken, sortBy: $sortBy, pageSize: $pageSize, sortType: $sortType, isEqualToFieldMap: $isEqualToFieldMap)';
+  return 'PageRequestModel(uid: $uid, nextPageToken: $nextPageToken, sortBy: $sortBy, pageSize: $pageSize, sortType: $sortType, isEqualToFieldMap: $isEqualToFieldMap)';
 }
 
 
@@ -248,7 +250,7 @@ abstract mixin class _$PageRequestModelCopyWith<$Res> implements $PageRequestMod
   factory _$PageRequestModelCopyWith(_PageRequestModel value, $Res Function(_PageRequestModel) _then) = __$PageRequestModelCopyWithImpl;
 @override @useResult
 $Res call({
- Object? nextPageToken, String sortBy, int pageSize, PageSortType sortType, Map<String, dynamic> isEqualToFieldMap
+ String uid, Object? nextPageToken, String sortBy, int pageSize, PageSortType sortType, Map<String, dynamic> isEqualToFieldMap
 });
 
 
@@ -265,9 +267,10 @@ class __$PageRequestModelCopyWithImpl<$Res>
 
 /// Create a copy of PageRequestModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? nextPageToken = freezed,Object? sortBy = null,Object? pageSize = null,Object? sortType = null,Object? isEqualToFieldMap = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uid = null,Object? nextPageToken = freezed,Object? sortBy = null,Object? pageSize = null,Object? sortType = null,Object? isEqualToFieldMap = null,}) {
   return _then(_PageRequestModel(
-nextPageToken: freezed == nextPageToken ? _self.nextPageToken : nextPageToken ,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
+uid: null == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
+as String,nextPageToken: freezed == nextPageToken ? _self.nextPageToken : nextPageToken ,sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
 as String,pageSize: null == pageSize ? _self.pageSize : pageSize // ignore: cast_nullable_to_non_nullable
 as int,sortType: null == sortType ? _self.sortType : sortType // ignore: cast_nullable_to_non_nullable
 as PageSortType,isEqualToFieldMap: null == isEqualToFieldMap ? _self._isEqualToFieldMap : isEqualToFieldMap // ignore: cast_nullable_to_non_nullable

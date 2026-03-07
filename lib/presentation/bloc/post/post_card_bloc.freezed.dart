@@ -12,7 +12,7 @@ part of 'post_card_bloc.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$PostCardEvent {
+mixin _$PostCardEvent implements DiagnosticableTreeMixin {
 
  PostEntity get post;
 /// Create a copy of PostCardEvent
@@ -22,6 +22,12 @@ mixin _$PostCardEvent {
 $PostCardEventCopyWith<PostCardEvent> get copyWith => _$PostCardEventCopyWithImpl<PostCardEvent>(this as PostCardEvent, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'PostCardEvent'))
+    ..add(DiagnosticsProperty('post', post));
+}
 
 @override
 bool operator ==(Object other) {
@@ -33,7 +39,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,post);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'PostCardEvent(post: $post)';
 }
 
@@ -214,7 +220,7 @@ return bookmarkClicked(_that.post);case _:
 /// @nodoc
 
 
-class _Toggled implements PostCardEvent {
+class _Toggled with DiagnosticableTreeMixin implements PostCardEvent {
   const _Toggled(this.post);
   
 
@@ -227,6 +233,12 @@ class _Toggled implements PostCardEvent {
 _$ToggledCopyWith<_Toggled> get copyWith => __$ToggledCopyWithImpl<_Toggled>(this, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'PostCardEvent.toggled'))
+    ..add(DiagnosticsProperty('post', post));
+}
 
 @override
 bool operator ==(Object other) {
@@ -238,7 +250,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,post);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'PostCardEvent.toggled(post: $post)';
 }
 
@@ -289,7 +301,7 @@ $PostEntityCopyWith<$Res> get post {
 /// @nodoc
 
 
-class _BookmarkCLicked implements PostCardEvent {
+class _BookmarkCLicked with DiagnosticableTreeMixin implements PostCardEvent {
   const _BookmarkCLicked(this.post);
   
 
@@ -302,6 +314,12 @@ class _BookmarkCLicked implements PostCardEvent {
 _$BookmarkCLickedCopyWith<_BookmarkCLicked> get copyWith => __$BookmarkCLickedCopyWithImpl<_BookmarkCLicked>(this, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'PostCardEvent.bookmarkClicked'))
+    ..add(DiagnosticsProperty('post', post));
+}
 
 @override
 bool operator ==(Object other) {
@@ -313,7 +331,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,post);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'PostCardEvent.bookmarkClicked(post: $post)';
 }
 
@@ -362,11 +380,17 @@ $PostEntityCopyWith<$Res> get post {
 }
 
 /// @nodoc
-mixin _$PostCardState {
+mixin _$PostCardState implements DiagnosticableTreeMixin {
 
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'PostCardState'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -378,7 +402,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'PostCardState()';
 }
 
@@ -536,7 +560,7 @@ return error(_that.error);case _:
 /// @nodoc
 
 
-class _Loading implements PostCardState {
+class _Loading with DiagnosticableTreeMixin implements PostCardState {
   const _Loading();
   
 
@@ -544,6 +568,12 @@ class _Loading implements PostCardState {
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'PostCardState.loading'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -555,7 +585,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'PostCardState.loading()';
 }
 
@@ -568,7 +598,7 @@ String toString() {
 /// @nodoc
 
 
-class _Loaded implements PostCardState {
+class _Loaded with DiagnosticableTreeMixin implements PostCardState {
   const _Loaded(this.post);
   
 
@@ -581,6 +611,12 @@ class _Loaded implements PostCardState {
 _$LoadedCopyWith<_Loaded> get copyWith => __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'PostCardState.loaded'))
+    ..add(DiagnosticsProperty('post', post));
+}
 
 @override
 bool operator ==(Object other) {
@@ -592,7 +628,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,post);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'PostCardState.loaded(post: $post)';
 }
 
@@ -643,7 +679,7 @@ $PostEntityCopyWith<$Res> get post {
 /// @nodoc
 
 
-class _Error implements PostCardState {
+class _Error with DiagnosticableTreeMixin implements PostCardState {
   const _Error(this.error);
   
 
@@ -656,6 +692,12 @@ class _Error implements PostCardState {
 _$ErrorCopyWith<_Error> get copyWith => __$ErrorCopyWithImpl<_Error>(this, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'PostCardState.error'))
+    ..add(DiagnosticsProperty('error', error));
+}
 
 @override
 bool operator ==(Object other) {
@@ -667,7 +709,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,error);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'PostCardState.error(error: $error)';
 }
 

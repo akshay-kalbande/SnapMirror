@@ -29,6 +29,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
   FutureOr<void> _onStarted(_Started event, Emitter<CommentsState> emit) async {
     (await getCommentsUsecase(
       PageRequestEntity(
+        uid: AppService.instance.user.uid,
         nextPageToken: state.comments?.nextPageToken,
         sortBy: 'datePublished',
         pageSize: 16,

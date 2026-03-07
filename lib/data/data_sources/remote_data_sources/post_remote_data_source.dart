@@ -12,7 +12,7 @@ abstract class PostRemoteDataSource {
   Future<PageResultModel<PostModel>> fetchUserPosts(
     final PageRequestModel pageRequest,
   );
-  Future<PageResultModel<PostModel>> fetchFollowingFeed(
+  Future<PageResultModel<String>> fetchFollowingFeed(
     final PageRequestModel pageRequest,
   );
   Future<PageResultModel<PostModel>> fetchExploreFeed(
@@ -79,13 +79,16 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   }
 
   @override
-  Future<PageResultModel<PostModel>> fetchFollowingFeed(
+  Future<PageResultModel<String>> fetchFollowingFeed(
     PageRequestModel pageRequest,
   ) async {
     return fetchPageRemoteDataSource.fetchNextPage(
-      firestore.collection(_collection),
+      firestore
+          .collection('users')
+          .doc(pageRequest.uid)
+          .collection(_collection),
       pageRequest,
-      (json) => PostModel.fromJson(json),
+      (json) => json['id'],
     );
   }
 

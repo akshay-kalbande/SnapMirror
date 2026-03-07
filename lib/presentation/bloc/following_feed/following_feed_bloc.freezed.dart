@@ -12,11 +12,17 @@ part of 'following_feed_bloc.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$FollowingFeedEvent {
+mixin _$FollowingFeedEvent implements DiagnosticableTreeMixin {
 
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'FollowingFeedEvent'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -28,7 +34,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'FollowingFeedEvent()';
 }
 
@@ -192,7 +198,7 @@ return newPostAdded(_that.post);case _:
 /// @nodoc
 
 
-class _Started implements FollowingFeedEvent {
+class _Started with DiagnosticableTreeMixin implements FollowingFeedEvent {
   const _Started();
   
 
@@ -200,6 +206,12 @@ class _Started implements FollowingFeedEvent {
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'FollowingFeedEvent.started'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -211,7 +223,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'FollowingFeedEvent.started()';
 }
 
@@ -224,7 +236,7 @@ String toString() {
 /// @nodoc
 
 
-class _Refreshed implements FollowingFeedEvent {
+class _Refreshed with DiagnosticableTreeMixin implements FollowingFeedEvent {
   const _Refreshed();
   
 
@@ -232,6 +244,12 @@ class _Refreshed implements FollowingFeedEvent {
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'FollowingFeedEvent.refreshed'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -243,7 +261,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'FollowingFeedEvent.refreshed()';
 }
 
@@ -256,7 +274,7 @@ String toString() {
 /// @nodoc
 
 
-class _FetchMore implements FollowingFeedEvent {
+class _FetchMore with DiagnosticableTreeMixin implements FollowingFeedEvent {
   const _FetchMore();
   
 
@@ -264,6 +282,12 @@ class _FetchMore implements FollowingFeedEvent {
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'FollowingFeedEvent.fetchMore'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -275,7 +299,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'FollowingFeedEvent.fetchMore()';
 }
 
@@ -288,7 +312,7 @@ String toString() {
 /// @nodoc
 
 
-class _PostLiked implements FollowingFeedEvent {
+class _PostLiked with DiagnosticableTreeMixin implements FollowingFeedEvent {
   const _PostLiked({required this.userID, required this.postID});
   
 
@@ -302,6 +326,12 @@ class _PostLiked implements FollowingFeedEvent {
 _$PostLikedCopyWith<_PostLiked> get copyWith => __$PostLikedCopyWithImpl<_PostLiked>(this, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'FollowingFeedEvent.postLiked'))
+    ..add(DiagnosticsProperty('userID', userID))..add(DiagnosticsProperty('postID', postID));
+}
 
 @override
 bool operator ==(Object other) {
@@ -313,7 +343,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,userID,postID);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'FollowingFeedEvent.postLiked(userID: $userID, postID: $postID)';
 }
 
@@ -356,7 +386,7 @@ as String,
 /// @nodoc
 
 
-class _NewPostAdded implements FollowingFeedEvent {
+class _NewPostAdded with DiagnosticableTreeMixin implements FollowingFeedEvent {
   const _NewPostAdded(this.post);
   
 
@@ -369,6 +399,12 @@ class _NewPostAdded implements FollowingFeedEvent {
 _$NewPostAddedCopyWith<_NewPostAdded> get copyWith => __$NewPostAddedCopyWithImpl<_NewPostAdded>(this, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'FollowingFeedEvent.newPostAdded'))
+    ..add(DiagnosticsProperty('post', post));
+}
 
 @override
 bool operator ==(Object other) {
@@ -380,7 +416,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,post);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'FollowingFeedEvent.newPostAdded(post: $post)';
 }
 
@@ -430,7 +466,7 @@ $PostEntityCopyWith<$Res> get post {
 
 
 /// @nodoc
-mixin _$FollowingFeedState {
+mixin _$FollowingFeedState implements DiagnosticableTreeMixin {
 
  bool get isLoading;@PageResultStringConverter() PageResult<String>? get posts;@JsonKey(includeFromJson: false, includeToJson: false) ScreenMessage? get message;
 /// Create a copy of FollowingFeedState
@@ -442,6 +478,12 @@ $FollowingFeedStateCopyWith<FollowingFeedState> get copyWith => _$FollowingFeedS
   /// Serializes this FollowingFeedState to a JSON map.
   Map<String, dynamic> toJson();
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'FollowingFeedState'))
+    ..add(DiagnosticsProperty('isLoading', isLoading))..add(DiagnosticsProperty('posts', posts))..add(DiagnosticsProperty('message', message));
+}
 
 @override
 bool operator ==(Object other) {
@@ -453,7 +495,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,isLoading,posts,message);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'FollowingFeedState(isLoading: $isLoading, posts: $posts, message: $message)';
 }
 
@@ -645,7 +687,7 @@ return $default(_that.isLoading,_that.posts,_that.message);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _FollowingFeedState implements FollowingFeedState {
+class _FollowingFeedState with DiagnosticableTreeMixin implements FollowingFeedState {
   const _FollowingFeedState({this.isLoading = false, @PageResultStringConverter() this.posts, @JsonKey(includeFromJson: false, includeToJson: false) this.message});
   factory _FollowingFeedState.fromJson(Map<String, dynamic> json,) => _$FollowingFeedStateFromJson(json,);
 
@@ -663,6 +705,12 @@ _$FollowingFeedStateCopyWith<_FollowingFeedState> get copyWith => __$FollowingFe
 Map<String, dynamic> toJson() {
   return _$FollowingFeedStateToJson(this, );
 }
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'FollowingFeedState'))
+    ..add(DiagnosticsProperty('isLoading', isLoading))..add(DiagnosticsProperty('posts', posts))..add(DiagnosticsProperty('message', message));
+}
 
 @override
 bool operator ==(Object other) {
@@ -674,7 +722,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,isLoading,posts,message);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'FollowingFeedState(isLoading: $isLoading, posts: $posts, message: $message)';
 }
 

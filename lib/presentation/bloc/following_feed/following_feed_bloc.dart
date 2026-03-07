@@ -6,6 +6,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import '../../../common/converters/page_result_string_converter.dart';
 import '../../../common/page_result.dart';
+import '../../../core/app_service.dart';
 import '../../../domain/entities/page_request_entity.dart';
 import '../../../domain/entities/post_entity.dart';
 import '../../../domain/entities/user_entity.dart';
@@ -43,6 +44,7 @@ class FollowingFeedBloc
     PageResult<String> currRes = state.posts ?? PageResult(items: []);
     final feedRes = await _getFollowingFeedUsecase(
       PageRequestEntity(
+        uid: AppService.instance.user.uid,
         nextPageToken: currRes.nextPageToken,
         sortBy: 'datePublished',
         pageSize: 15,

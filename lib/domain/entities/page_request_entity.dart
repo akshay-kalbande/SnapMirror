@@ -8,6 +8,7 @@ enum PageSortType { asc, desc }
 sealed class PageRequestEntity with _$PageRequestEntity {
   const PageRequestEntity._();
   const factory PageRequestEntity({
+    required String uid,
     Object? nextPageToken,
     @Default('timestamp') String sortBy,
     @Default(30) int pageSize,

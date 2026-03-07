@@ -4,6 +4,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart' as concurrency;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../core/app_service.dart';
 import '../../../domain/entities/page_request_entity.dart';
 import '../../../domain/entities/post_entity.dart';
 import '../../../domain/entities/user_entity.dart';
@@ -81,6 +82,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Future<ProfileState> _fetchMorePosts(final UserEntity user) async {
     final postRes = await getPostsOfUser(
       PageRequestEntity(
+        uid: AppService.instance.user.uid,
         nextPageToken: state.nextPageToken,
         sortBy: 'datePublished',
         pageSize: 8,
