@@ -62,10 +62,12 @@ class FollowingFeedBloc
       ),
       (r) async {
         final currentItems = currRes.items;
+        print('Fetched posts: ${r.items}');
         return FollowingFeedState(
-          posts: PageResult.fromEntity(
-            r,
-          ).copyWith(items: [...currentItems, ...r.items], fetchingMore: false),
+          posts: PageResult.fromEntity(r).copyWith(
+            items: <String>{...currentItems, ...r.items}.toList(),
+            fetchingMore: false,
+          ),
         );
       },
     );

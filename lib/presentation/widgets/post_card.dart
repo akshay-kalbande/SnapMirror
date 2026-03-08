@@ -110,14 +110,32 @@ class _PostCardState extends State<PostCard> {
                               onPressed: () {
                                 // TODO: implement
                               },
-                              child: const Text('delete'),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 5,
+                                children: [
+                                  const Text('Save'),
+                                  const Icon(Icons.bookmark_border),
+                                ],
+                              ),
                             ),
                             SimpleDialogOption(
                               padding: const EdgeInsets.all(20),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: const Text('save'),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 5,
+                                children: [
+                                  const Text('Report Post'),
+                                  const Icon(Icons.report_outlined),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -203,18 +221,18 @@ class _PostCardState extends State<PostCard> {
                     icon: const Icon(Icons.send, color: Colors.white),
                   ),
                   Flexible(child: Container()),
-                  IconButton(
-                    onPressed: () {
-                      // setState(() {
-                      //   isSaved = !isSaved;
-                      // });
-                    },
-                    icon:
-                        // isSaved
-                        //     ? const Icon(Icons.bookmark)
-                        //     :
-                        const Icon(Icons.bookmark_outline_outlined),
-                  ),
+                  // IconButton(
+                  //   onPressed: () {
+                  //     // setState(() {
+                  //     //   isSaved = !isSaved;
+                  //     // });
+                  //   },
+                  //   icon:
+                  //       // isSaved
+                  //       //     ? const Icon(Icons.bookmark)
+                  //       //     :
+                  //       const Icon(Icons.bookmark_outline_outlined),
+                  // ),
                 ],
               ),
               Padding(

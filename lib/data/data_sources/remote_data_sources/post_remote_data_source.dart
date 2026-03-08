@@ -25,6 +25,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   final FirebaseFirestore firestore;
   final FetchPageRemoteDataSource fetchPageRemoteDataSource;
   final String _collection = 'posts';
+  final String _feedCollection = 'feed';
 
   PostRemoteDataSourceImpl({
     required this.firestore,
@@ -86,7 +87,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
       firestore
           .collection('users')
           .doc(pageRequest.uid)
-          .collection(_collection),
+          .collection(_feedCollection),
       pageRequest,
       (json) => json['id'],
     );

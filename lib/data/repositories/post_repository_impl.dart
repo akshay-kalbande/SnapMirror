@@ -62,6 +62,7 @@ class PostRepositoryImpl implements PostRepository {
           return id;
         },
       );
+      print('Fetched Posts Repo: ${res.items}');
       // _updateAll(posts);
       return Right(res);
     } catch (e) {
