@@ -76,11 +76,11 @@ class _BottomNavBar extends StatelessWidget {
           activeIcon: Icon(Icons.add_circle),
           label: 'Upload',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border),
-          activeIcon: Icon(Icons.favorite),
-          label: 'Notifications',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.favorite_border),
+        //   activeIcon: Icon(Icons.favorite),
+        //   label: 'Notifications',
+        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
           activeIcon: Icon(Icons.person),

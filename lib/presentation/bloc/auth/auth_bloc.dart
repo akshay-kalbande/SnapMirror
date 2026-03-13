@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../core/app_service.dart';
 import '../../../core/usecases/usecase.dart';
 import '../../../domain/entities/user_entity.dart';
+import '../../../domain/usecases/get_logged_in_user_usecase.dart';
 import '../../../domain/usecases/get_user_usecase.dart';
 import '../../../domain/usecases/login_user_usecase.dart';
 import '../../../domain/usecases/logout_user_usecase.dart';
@@ -14,21 +15,21 @@ part 'auth_state.dart';
 part 'auth_bloc.freezed.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final GetUserUsecase _getUserUsecase;
+  final GetLoggedInUserUsecase _getLoggedInUserUsecase;
   final LoginUserUsecase _loginUserUsecase;
   final LogoutUserUsecase _logoutUserUsecase;
   late final StreamSubscription<String?> _streamSubscription;
   AuthBloc(
-    this._getUserUsecase,
+    this._getLoggedInUserUsecase,
     this._loginUserUsecase,
     this._logoutUserUsecase,
   ) : super(const AuthState.initial()) {
     on<_StatusChecked>(_onStatusChecked);
     on<_Login>(_onLogin);
     on<_Logout>(_onLogout);
-    _streamSubscription = _getUserUsecase.authStream.asBroadcastStream().listen(
-      (event) => add(AuthEvent.statusChecked(event)),
-    );
+    _streamSubscription = _getLoggedInUserUsecase.authStream
+        .asBroadcastStream()
+        .listen((event) => add(AuthEvent.statusChecked(event)));
   }
 
   @override
@@ -41,7 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _StatusChecked event,
     Emitter<AuthState> emit,
   ) async {
-    print('------------- Status changed -------------');
+    print('------------- Status checked -------------');
     // return;
     // emit(
     //   state.map(
@@ -58,7 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthState.unauthenticated());
       }
     } else {
-      (await _getUserUsecase(event.userID!)).fold(
+      (await _getLoggedInUserUsecase(event.userID!)).fold(
         (l) => emit(AuthState.unauthenticated()),
         (r) {
           AppService.instance.user = r;

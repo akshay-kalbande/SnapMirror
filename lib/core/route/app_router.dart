@@ -152,20 +152,20 @@ class AppRouter extends ChangeNotifier {
                 ),
               ],
             ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  path: Routes.notifications,
-                  name: 'Notifications',
-                  pageBuilder: (context, state) =>
-                      _buildPageWithDefaultTransition(
-                        context: context,
-                        state: state,
-                        child: NotificationsPage(),
-                      ),
-                ),
-              ],
-            ),
+            // StatefulShellBranch(
+            //   routes: [
+            //     GoRoute(
+            //       path: Routes.notifications,
+            //       name: 'Notifications',
+            //       pageBuilder: (context, state) =>
+            //           _buildPageWithDefaultTransition(
+            //             context: context,
+            //             state: state,
+            //             child: NotificationsPage(),
+            //           ),
+            //     ),
+            //   ],
+            // ),
             StatefulShellBranch(
               routes: [
                 GoRoute(
@@ -282,6 +282,8 @@ class AppRouter extends ChangeNotifier {
                   getPostUsecase: sl(),
                   updatePostUsecase: sl(),
                   togglePostUsecase: sl(),
+                  bookmarkPostUsecase: sl(),
+                  removePostFromBookmarkUsecase: sl(),
                 ),
                 child: PostPage(),
               ),

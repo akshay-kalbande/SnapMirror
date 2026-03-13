@@ -6,11 +6,16 @@ import '../../core/failures/validation_failure.dart';
 import '../../core/usecases/usecase.dart';
 import '../entities/user_entity.dart';
 import '../repositories/auth_repository.dart';
+import '../repositories/user_repository.dart';
 
 class LoginUserUsecase implements Usecase<UserEntity, LoginParams> {
-  final AuthRepository _authRepository;
+  final AuthRepository authRepository;
+  final UserRepository userRepository;
 
-  LoginUserUsecase(this._authRepository);
+  LoginUserUsecase({
+    required this.authRepository,
+    required this.userRepository,
+  });
   @override
   Future<Either<Failure, UserEntity>> call(LoginParams params) async {
     if (params.email.isEmpty || params.password.isEmpty) {
@@ -18,7 +23,10 @@ class LoginUserUsecase implements Usecase<UserEntity, LoginParams> {
         ValidationFailure.invalid(reason: 'Email and password is required!'),
       );
     }
-    return _authRepository.loginUser(params);
+    return (await authRepository.loginUser(params)).fold((l) => Left(l), (r) {
+      userRepository.getUserBookmarkedPosts(r.uid);
+      return Right(r);
+    });
   }
 }
 

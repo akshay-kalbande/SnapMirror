@@ -165,11 +165,11 @@ return bookmarkClicked(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( PostEntity post)?  toggled,TResult Function( PostEntity post)?  bookmarkClicked,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( PostEntity post)?  toggled,TResult Function( PostEntity post,  bool bookmarked)?  bookmarkClicked,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Toggled() when toggled != null:
 return toggled(_that.post);case _BookmarkCLicked() when bookmarkClicked != null:
-return bookmarkClicked(_that.post);case _:
+return bookmarkClicked(_that.post,_that.bookmarked);case _:
   return orElse();
 
 }
@@ -187,11 +187,11 @@ return bookmarkClicked(_that.post);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( PostEntity post)  toggled,required TResult Function( PostEntity post)  bookmarkClicked,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( PostEntity post)  toggled,required TResult Function( PostEntity post,  bool bookmarked)  bookmarkClicked,}) {final _that = this;
 switch (_that) {
 case _Toggled():
 return toggled(_that.post);case _BookmarkCLicked():
-return bookmarkClicked(_that.post);}
+return bookmarkClicked(_that.post,_that.bookmarked);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -205,11 +205,11 @@ return bookmarkClicked(_that.post);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( PostEntity post)?  toggled,TResult? Function( PostEntity post)?  bookmarkClicked,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( PostEntity post)?  toggled,TResult? Function( PostEntity post,  bool bookmarked)?  bookmarkClicked,}) {final _that = this;
 switch (_that) {
 case _Toggled() when toggled != null:
 return toggled(_that.post);case _BookmarkCLicked() when bookmarkClicked != null:
-return bookmarkClicked(_that.post);case _:
+return bookmarkClicked(_that.post,_that.bookmarked);case _:
   return null;
 
 }
@@ -302,10 +302,11 @@ $PostEntityCopyWith<$Res> get post {
 
 
 class _BookmarkCLicked with DiagnosticableTreeMixin implements PostCardEvent {
-  const _BookmarkCLicked(this.post);
+  const _BookmarkCLicked(this.post, this.bookmarked);
   
 
 @override final  PostEntity post;
+ final  bool bookmarked;
 
 /// Create a copy of PostCardEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -318,21 +319,21 @@ _$BookmarkCLickedCopyWith<_BookmarkCLicked> get copyWith => __$BookmarkCLickedCo
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'PostCardEvent.bookmarkClicked'))
-    ..add(DiagnosticsProperty('post', post));
+    ..add(DiagnosticsProperty('post', post))..add(DiagnosticsProperty('bookmarked', bookmarked));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BookmarkCLicked&&(identical(other.post, post) || other.post == post));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BookmarkCLicked&&(identical(other.post, post) || other.post == post)&&(identical(other.bookmarked, bookmarked) || other.bookmarked == bookmarked));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,post);
+int get hashCode => Object.hash(runtimeType,post,bookmarked);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'PostCardEvent.bookmarkClicked(post: $post)';
+  return 'PostCardEvent.bookmarkClicked(post: $post, bookmarked: $bookmarked)';
 }
 
 
@@ -343,7 +344,7 @@ abstract mixin class _$BookmarkCLickedCopyWith<$Res> implements $PostCardEventCo
   factory _$BookmarkCLickedCopyWith(_BookmarkCLicked value, $Res Function(_BookmarkCLicked) _then) = __$BookmarkCLickedCopyWithImpl;
 @override @useResult
 $Res call({
- PostEntity post
+ PostEntity post, bool bookmarked
 });
 
 
@@ -360,10 +361,11 @@ class __$BookmarkCLickedCopyWithImpl<$Res>
 
 /// Create a copy of PostCardEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? post = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? post = null,Object? bookmarked = null,}) {
   return _then(_BookmarkCLicked(
 null == post ? _self.post : post // ignore: cast_nullable_to_non_nullable
-as PostEntity,
+as PostEntity,null == bookmarked ? _self.bookmarked : bookmarked // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -459,10 +461,7 @@ switch (_that) {
 case _Loading():
 return loading(_that);case _Loaded():
 return loaded(_that);case _Error():
-return error(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return error(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -499,11 +498,11 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( PostEntity post)?  loaded,TResult Function( String error)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( PostEntity post,  bool bookmarked)?  loaded,TResult Function( String error)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.post);case _Error() when error != null:
+return loaded(_that.post,_that.bookmarked);case _Error() when error != null:
 return error(_that.error);case _:
   return orElse();
 
@@ -522,15 +521,12 @@ return error(_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( PostEntity post)  loaded,required TResult Function( String error)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( PostEntity post,  bool bookmarked)  loaded,required TResult Function( String error)  error,}) {final _that = this;
 switch (_that) {
 case _Loading():
 return loading();case _Loaded():
-return loaded(_that.post);case _Error():
-return error(_that.error);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return loaded(_that.post,_that.bookmarked);case _Error():
+return error(_that.error);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -544,11 +540,11 @@ return error(_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( PostEntity post)?  loaded,TResult? Function( String error)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( PostEntity post,  bool bookmarked)?  loaded,TResult? Function( String error)?  error,}) {final _that = this;
 switch (_that) {
 case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.post);case _Error() when error != null:
+return loaded(_that.post,_that.bookmarked);case _Error() when error != null:
 return error(_that.error);case _:
   return null;
 
@@ -599,10 +595,11 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 
 
 class _Loaded with DiagnosticableTreeMixin implements PostCardState {
-  const _Loaded(this.post);
+  const _Loaded(this.post, this.bookmarked);
   
 
  final  PostEntity post;
+ final  bool bookmarked;
 
 /// Create a copy of PostCardState
 /// with the given fields replaced by the non-null parameter values.
@@ -615,21 +612,21 @@ _$LoadedCopyWith<_Loaded> get copyWith => __$LoadedCopyWithImpl<_Loaded>(this, _
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'PostCardState.loaded'))
-    ..add(DiagnosticsProperty('post', post));
+    ..add(DiagnosticsProperty('post', post))..add(DiagnosticsProperty('bookmarked', bookmarked));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&(identical(other.post, post) || other.post == post));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&(identical(other.post, post) || other.post == post)&&(identical(other.bookmarked, bookmarked) || other.bookmarked == bookmarked));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,post);
+int get hashCode => Object.hash(runtimeType,post,bookmarked);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'PostCardState.loaded(post: $post)';
+  return 'PostCardState.loaded(post: $post, bookmarked: $bookmarked)';
 }
 
 
@@ -640,7 +637,7 @@ abstract mixin class _$LoadedCopyWith<$Res> implements $PostCardStateCopyWith<$R
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) = __$LoadedCopyWithImpl;
 @useResult
 $Res call({
- PostEntity post
+ PostEntity post, bool bookmarked
 });
 
 
@@ -657,10 +654,11 @@ class __$LoadedCopyWithImpl<$Res>
 
 /// Create a copy of PostCardState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? post = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? post = null,Object? bookmarked = null,}) {
   return _then(_Loaded(
 null == post ? _self.post : post // ignore: cast_nullable_to_non_nullable
-as PostEntity,
+as PostEntity,null == bookmarked ? _self.bookmarked : bookmarked // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

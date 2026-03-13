@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dartz/dartz.dart';
 
+import '../../core/app_service.dart';
 import '../../core/failures/failure.dart';
 import '../../domain/entities/file_upload_result_entity.dart';
 import '../../domain/entities/user_entity.dart';
@@ -66,5 +67,53 @@ class UserRepositoryImpl implements UserRepository {
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
+  }
+
+  @override
+  Future<Either<Failure, void>> bookmarkPost(
+    String postID,
+    String userID,
+  ) async {
+    try {
+      await dataSource.bookmarkPost(postID, userID);
+      AppService.instance.addToSavedPosts([postID]);
+      return Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeFromBookmark(
+    String postID,
+    String userID,
+  ) async {
+    try {
+      await dataSource.removeFromBookmark(postID, userID);
+      AppService.instance.unsavePost(postID);
+      return Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<String>>> getUserBookmarkedPosts(
+    final String userID,
+  ) async {
+    try {
+      final posts = await dataSource.getUserBookmarkedPosts(userID);
+      print('Fetched bookmarks: $posts');
+      AppService.instance.setSavedPosts(posts);
+      return Right(posts);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Either<Failure, void> clearSavedPosts() {
+    AppService.instance.clearSavedPosts();
+    return Right(null);
   }
 }

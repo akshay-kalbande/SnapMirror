@@ -154,6 +154,8 @@ class _FollowingFeedPageState extends State<FollowingFeedPage> {
                                   getPostUsecase: sl<GetPostUsecase>(),
                                   togglePostUsecase: sl(),
                                   updatePostUsecase: sl(),
+                                  bookmarkPostUsecase: sl(),
+                                  removePostFromBookmarkUsecase: sl(),
                                 ),
                                 child: const PostCard(),
                               ),

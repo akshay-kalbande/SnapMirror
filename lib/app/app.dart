@@ -9,7 +9,7 @@ import '../presentation/bloc/upload/upload_bloc.dart';
 import 'injection_container.dart';
 
 class SnapMirror extends StatelessWidget {
-  SnapMirror({super.key});
+  const SnapMirror({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -9,8 +9,10 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import '../../../core/app_service.dart';
 import '../../../data/models/post_model.dart';
 import '../../../domain/entities/post_entity.dart';
+import '../../../domain/usecases/bookmark_post_usecase.dart' as bk;
 import '../../../domain/usecases/get_post_feed_subscription_usecase.dart';
 import '../../../domain/usecases/get_post_usecase.dart';
+import '../../../domain/usecases/remove_post_from_bookmark_usecase.dart' as rbk;
 import '../../../domain/usecases/toggle_post_usecase.dart';
 import '../../../domain/usecases/update_post_usecase.dart';
 
@@ -24,14 +26,18 @@ class PostCardBloc extends HydratedBloc<PostCardEvent, PostCardState> {
   final UpdatePostUsecase updatePostUsecase;
   final TogglePostLikeUsecase togglePostUsecase;
   final GetPostFeedSubscriptionUsecase postFeedSubscriptionUsecase;
-
   late final StreamSubscription<PostEntity> _feedSubscription;
+
+  final bk.BookmarkPostUsecase bookmarkPostUsecase;
+  final rbk.RemovePostFromBookmarkUsecase removePostFromBookmarkUsecase;
   PostCardBloc({
     required this.postID,
     required this.postFeedSubscriptionUsecase,
     required this.getPostUsecase,
     required this.updatePostUsecase,
     required this.togglePostUsecase,
+    required this.bookmarkPostUsecase,
+    required this.removePostFromBookmarkUsecase,
   }) : super(const PostCardState.loading()) {
     on<_Toggled>(_onToggled);
     on<_BookmarkCLicked>(_onBookmarkClicked);
@@ -48,11 +54,23 @@ class PostCardBloc extends HydratedBloc<PostCardEvent, PostCardState> {
         }
       },
       (post) {
-        final currentPost = state.whenOrNull(loaded: (p) => p);
+        final currentPost = state.whenOrNull(
+          loaded: (post, bookmarked) => post,
+        );
         if (currentPost == null) {
-          emit(PostCardState.loaded(post));
+          emit(
+            PostCardState.loaded(
+              post,
+              AppService.instance.postBookmarked(postID),
+            ),
+          );
         } else if (currentPost != post) {
-          emit(PostCardState.loaded(post));
+          emit(
+            PostCardState.loaded(
+              post,
+              AppService.instance.postBookmarked(postID),
+            ),
+          );
         }
       },
     );
@@ -60,18 +78,32 @@ class PostCardBloc extends HydratedBloc<PostCardEvent, PostCardState> {
 
   FutureOr<void> _onToggled(_Toggled event, Emitter<PostCardState> emit) async {
     emit(
-      PostCardState.loaded(event.post.toggleLike(AppService.instance.user.uid)),
+      PostCardState.loaded(
+        event.post.toggleLike(AppService.instance.user.uid),
+        AppService.instance.postBookmarked(postID),
+      ),
     );
-    (await togglePostUsecase(
-      event.post,
-    )).fold((l) => emit(PostCardState.loaded(event.post)), (r) => null);
+    (await togglePostUsecase(event.post)).fold(
+      (l) => emit(
+        PostCardState.loaded(
+          event.post,
+          AppService.instance.postBookmarked(postID),
+        ),
+      ),
+      (r) => null,
+    );
   }
 
   void _initializeSubscription() async {
     final res = await postFeedSubscriptionUsecase(postID);
     res.fold((l) => debugPrint('Error getting post stream: ${l.message}'), (r) {
       _feedSubscription = r.listen(
-        (event) => emit(PostCardState.loaded(event)),
+        (event) => emit(
+          PostCardState.loaded(
+            event,
+            AppService.instance.postBookmarked(postID),
+          ),
+        ),
         // (event) => add(PostEvent.postUpdated(event)),
         onError: (error) {
           debugPrint('Stream Error: $error');
@@ -86,7 +118,10 @@ class PostCardBloc extends HydratedBloc<PostCardEvent, PostCardState> {
       json['datePublished'] = Timestamp.fromDate(
         DateTime.parse(json['datePublished']),
       );
-      return PostCardState.loaded(PostModel.fromJson(json).entity);
+      return PostCardState.loaded(
+        PostModel.fromJson(json).entity,
+        AppService.instance.postBookmarked(postID),
+      );
     } catch (e) {
       return PostCardState.error(e.toString());
     }
@@ -95,7 +130,7 @@ class PostCardBloc extends HydratedBloc<PostCardEvent, PostCardState> {
   @override
   Map<String, dynamic>? toJson(PostCardState state) {
     final json = state.whenOrNull(
-      loaded: (post) =>
+      loaded: (post, bookmarked) =>
           PostModel.fromEntity(post).toJson()
             ..['datePublished'] = post.datePublished.toIso8601String(),
     );
@@ -114,5 +149,29 @@ class PostCardBloc extends HydratedBloc<PostCardEvent, PostCardState> {
   FutureOr<void> _onBookmarkClicked(
     _BookmarkCLicked event,
     Emitter<PostCardState> emit,
-  ) {}
+  ) async {
+    if (event.bookmarked) {
+      final res = await removePostFromBookmarkUsecase(
+        rbk.BookmarkPostParams(
+          postID: event.post.postId,
+          userID: AppService.instance.user.uid,
+        ),
+      );
+      res.fold((l) => print('unbookmark failed: ${l.message}'), (r) => null);
+    } else {
+      final res = await bookmarkPostUsecase(
+        bk.BookmarkPostParams(
+          postID: event.post.postId,
+          userID: AppService.instance.user.uid,
+        ),
+      );
+      res.fold((l) => print('bookmark failed: ${l.message}'), (r) => null);
+    }
+    emit(
+      PostCardState.loaded(
+        event.post,
+        AppService.instance.postBookmarked(event.post.postId),
+      ),
+    );
+  }
 }

@@ -15,4 +15,13 @@ abstract class UserRepository {
     final Uint8List file,
     final String userID,
   );
+  Future<Either<Failure, void>> bookmarkPost(String postID, String userID);
+  Future<Either<Failure, void>> removeFromBookmark(
+    String postID,
+    String userID,
+  );
+  Future<Either<Failure, List<String>>> getUserBookmarkedPosts(
+    final String userID,
+  );
+  Either<Failure, void> clearSavedPosts();
 }
