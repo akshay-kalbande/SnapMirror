@@ -53,7 +53,7 @@ class _BottomNavBar extends StatelessWidget {
       iconSize: 24,
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      enableFeedback: false,
+      enableFeedback: true,
       onTap: (value) {
         navigationShell.goBranch(
           value,

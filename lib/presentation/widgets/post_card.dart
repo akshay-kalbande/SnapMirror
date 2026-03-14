@@ -40,8 +40,10 @@ class _PostCardState extends State<PostCard> {
     var screenWidth = MediaQuery.of(context).size.width;
     return BlocConsumer<PostCardBloc, PostCardState>(
       listenWhen: (previous, current) =>
-          current.whenOrNull(loaded: (post, bookmarked) => bookmarked) !=
-          previous.whenOrNull(loaded: (post, bookmarked) => bookmarked),
+          (current.whenOrNull(loaded: (post, bookmarked) => bookmarked) ??
+              true) !=
+          (previous.whenOrNull(loaded: (post, bookmarked) => bookmarked) ??
+              true),
       listener: (context, state) {
         state.whenOrNull(
           loaded: (post, bookmarked) => AppUtils.showInfoMessage(

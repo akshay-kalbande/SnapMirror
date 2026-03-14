@@ -17,6 +17,6 @@ class GetExploreFeedUsecase
   Future<Either<Failure, PageResultEntity<PostEntity>>> call(
     PageRequestEntity params,
   ) async {
-    return postRepository.fetchExploreFeed(params);
+    return await postRepository.fetchExploreFeed(params);
   }
 }

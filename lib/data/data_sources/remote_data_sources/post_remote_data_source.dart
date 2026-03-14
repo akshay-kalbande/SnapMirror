@@ -83,24 +83,32 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   Future<PageResultModel<String>> fetchFollowingFeed(
     PageRequestModel pageRequest,
   ) async {
-    return fetchPageRemoteDataSource.fetchNextPage(
-      firestore
-          .collection('users')
-          .doc(pageRequest.uid)
-          .collection(_feedCollection),
-      pageRequest,
-      (json) => json['id'],
-    );
+    try {
+      return await fetchPageRemoteDataSource.fetchNextPage(
+        firestore
+            .collection('users')
+            .doc(pageRequest.uid)
+            .collection(_feedCollection),
+        pageRequest,
+        (json) => json['id'],
+      );
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
   }
 
   @override
   Future<PageResultModel<PostModel>> fetchExploreFeed(
     PageRequestModel pageRequest,
   ) async {
-    return fetchPageRemoteDataSource.fetchNextPage(
-      firestore.collection(_collection),
-      pageRequest,
-      (json) => PostModel.fromJson(json),
-    );
+    try {
+      return await fetchPageRemoteDataSource.fetchNextPage(
+        firestore.collection(_collection),
+        pageRequest,
+        (json) => PostModel.fromJson(json),
+      );
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
   }
 }

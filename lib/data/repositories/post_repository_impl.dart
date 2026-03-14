@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../core/app_service.dart';
 import '../../core/failures/failure.dart';
 import '../../domain/entities/file_upload_result_entity.dart';
 import '../../domain/entities/page_request_entity.dart';
@@ -79,15 +80,23 @@ class PostRepositoryImpl implements PostRepository {
         PageRequestModel.fromEntity(pageRequest),
       );
       List<PostEntity> posts = [];
-      final res = feedRes.toEntity<PostEntity>(
+      final res = feedRes.toEntity<PostEntity?>(
         itemMapper: (model) {
           final post = model.entity;
           posts.add(post);
+          if (post.uid == AppService.instance.user.uid) return null;
           return post;
         },
       );
-      // _updateAll(posts);
-      return Right(res);
+      _updateAll(posts);
+      return Right(
+        PageResultEntity(
+          items: res.items.nonNulls.toList(),
+          nextPageToken: res.nextPageToken,
+          isLastPage: res.isLastPage,
+          totalItemCount: res.totalItemCount,
+        ),
+      );
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

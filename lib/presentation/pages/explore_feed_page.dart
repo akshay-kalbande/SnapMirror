@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/route/routes.dart';
+import '../../core/utils/app_utils.dart';
 import '../../core/utils/dimensions.dart';
 
 import '../bloc/explore_feed/explore_feed_bloc.dart';
@@ -355,7 +356,7 @@ class _ExploreFeedPageState extends State<ExploreFeedPage> {
             BlocConsumer<ExploreFeedBloc, ExploreFeedState>(
               listener: (context, state) {
                 if (state.message != null) {
-                  // AppUtils.showNotification(context, state.message!);
+                  AppUtils.showNotification(context, state.message!);
                 }
               },
               builder: (context, state) => SliverMainAxisGroup(
