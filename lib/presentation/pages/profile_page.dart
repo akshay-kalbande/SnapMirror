@@ -111,7 +111,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 actions: [
                   if (status(state.user!) == _Status.owner)
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.push(Routes.settings);
+                      },
                       icon: const Icon(Icons.settings),
                     ),
                 ],

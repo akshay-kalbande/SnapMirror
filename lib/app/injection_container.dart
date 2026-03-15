@@ -50,6 +50,7 @@ import '../domain/usecases/toggle_comment_like_usecase.dart';
 import '../domain/usecases/toggle_post_usecase.dart';
 import '../domain/usecases/unfollow_user.dart';
 import '../domain/usecases/update_post_usecase.dart';
+import '../domain/usecases/update_profile_usecase.dart';
 import '../domain/usecases/upload_post_usecase.dart';
 import '../presentation/bloc/auth/auth_bloc.dart';
 
@@ -142,6 +143,9 @@ void init() {
   );
   sl.registerSingleton<GetUserBookmarkedPostsUsecase>(
     GetUserBookmarkedPostsUsecase(sl<UserRepository>()),
+  );
+  sl.registerFactory<UpdateProfileUsecase>(
+    () => UpdateProfileUsecase(sl()),
   );
 
   sl.registerSingleton<PostRepository>(

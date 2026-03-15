@@ -7,6 +7,7 @@ import '../../common/main_scaffold.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../presentation/bloc/auth/auth_bloc.dart';
 import '../../presentation/bloc/comments/comments_bloc.dart';
+import '../../presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import '../../presentation/bloc/explore_feed/explore_feed_bloc.dart';
 import '../../presentation/bloc/followers_list/followers_list_bloc.dart';
 import '../../presentation/bloc/following_feed/following_feed_bloc.dart';
@@ -22,12 +23,13 @@ import '../../presentation/pages/explore_feed_page.dart';
 import '../../presentation/pages/followers_list_page.dart';
 import '../../presentation/pages/following_list_page.dart';
 import '../../presentation/pages/login_page.dart';
-import '../../presentation/pages/notifications_page.dart';
 import '../../presentation/pages/following_feed_page.dart';
 import '../../presentation/pages/post_page.dart';
 import '../../presentation/pages/profile_page.dart';
 import '../../presentation/pages/register_page.dart';
 import '../../presentation/pages/splash_page.dart';
+import '../../presentation/pages/settings_page.dart';
+import '../../presentation/pages/edit_profile_page.dart';
 import '../app_service.dart';
 import 'routes.dart';
 
@@ -307,6 +309,27 @@ class AppRouter extends ChangeNotifier {
               ),
             );
           },
+        ),
+        GoRoute(
+          path: Routes.settings,
+          name: 'settings',
+          pageBuilder: (context, state) => _buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: const SettingsPage(),
+          ),
+        ),
+        GoRoute(
+          path: Routes.editProfile,
+          name: 'editProfile',
+          pageBuilder: (context, state) => _buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: BlocProvider<EditProfileBloc>(
+              create: (context) => EditProfileBloc(sl()),
+              child: const EditProfilePage(),
+            ),
+          ),
         ),
       ],
     );

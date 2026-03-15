@@ -8,6 +8,7 @@ import '../../models/user_model.dart';
 
 abstract class UserRemoteDataSource {
   Future<UserModel> registerUser(final UserModel user);
+  Future<UserModel> updateUser(final UserModel user);
   Future<List<UserModel>> searchUser(final String text);
   Future<void> deleteUser(final UserModel user);
   Future<Stream<FileUploadResultModel>> uploadProfilePhoto(
@@ -39,6 +40,16 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<UserModel> deleteUser(UserModel user) {
     // TODO: implement deleteUser
     throw UnimplementedError();
+  }
+
+  @override
+  Future<UserModel> updateUser(UserModel user) async {
+    try {
+      await firestore.collection(collection).doc(user.uid).update(user.toJson());
+      return user;
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
   }
 
   @override

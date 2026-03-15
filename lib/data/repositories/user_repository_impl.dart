@@ -37,9 +37,13 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> updateUser(UserEntity user) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
+  Future<Either<Failure, UserEntity>> updateUser(UserEntity user) async {
+    try {
+      final res = await dataSource.updateUser(UserModel.fromEntity(user));
+      return Right(res.entity);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
 
   @override
