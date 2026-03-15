@@ -5,16 +5,18 @@ import 'package:shimmer/shimmer.dart';
 class ProfileImage extends StatelessWidget {
   final String profileImageUrl;
   final bool isSmall;
-  const ProfileImage({
+  double? radius;
+  ProfileImage({
     super.key,
     required this.profileImageUrl,
     this.isSmall = true,
+    this.radius,
   });
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: isSmall ? 16 : 32,
+      radius: radius ?? (isSmall ? 16 : 32),
       backgroundColor: Colors.grey[200],
       child: ClipOval(
         child: CachedNetworkImage(

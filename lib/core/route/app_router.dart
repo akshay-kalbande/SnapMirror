@@ -6,6 +6,7 @@ import '../../app/injection_container.dart';
 import '../../common/main_scaffold.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../presentation/bloc/auth/auth_bloc.dart';
+import '../../presentation/bloc/chat_preview_list/chat_preview_list_bloc.dart';
 import '../../presentation/bloc/comments/comments_bloc.dart';
 import '../../presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import '../../presentation/bloc/explore_feed/explore_feed_bloc.dart';
@@ -17,6 +18,8 @@ import '../../presentation/bloc/profile/profile_bloc.dart';
 import '../../presentation/bloc/register/register_bloc.dart';
 import '../../presentation/bloc/search/search_bloc.dart';
 import '../../presentation/bloc/upload_post/upload_post_bloc.dart';
+import '../../presentation/pages/chat_preview_list_page.dart';
+import '../../presentation/pages/chat_page.dart';
 import '../../presentation/pages/upload_post_page.dart';
 import '../../presentation/pages/comments_page.dart';
 import '../../presentation/pages/explore_feed_page.dart';
@@ -329,6 +332,29 @@ class AppRouter extends ChangeNotifier {
               create: (context) => EditProfileBloc(sl()),
               child: const EditProfilePage(),
             ),
+          ),
+        ),
+        GoRoute(
+          path: Routes.chatList,
+          name: 'chatList',
+          pageBuilder: (context, state) => _buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (context) =>
+                  ChatPreviewListBloc(sl())
+                    ..add(ChatPreviewListEvent.started()),
+              child: const ChatPreviewListPage(),
+            ),
+          ),
+        ),
+        GoRoute(
+          path: Routes.chat,
+          name: 'chat',
+          pageBuilder: (context, state) => _buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: const ChatPage(username: 'ak'),
           ),
         ),
       ],

@@ -17,6 +17,7 @@ abstract class AppUtils {
   ) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration: const Duration(seconds: 1),
         content: Text(
           notification.content,
           style: TextStyle(
@@ -25,5 +26,17 @@ abstract class AppUtils {
         ),
       ),
     );
+  }
+
+  static String dateTimeToIntervalPassed(final DateTime time) {
+    final diff = time.difference(DateTime.now()).abs();
+    if (diff.inHours >= 24) return '${(diff.inHours / 24).floor()} days ago';
+    if (diff.inMinutes >= 60) {
+      return '${(diff.inMinutes / 60).floor()} hours ago';
+    }
+    if (diff.inSeconds >= 60) {
+      return '${(diff.inSeconds / 60).floor()} mins ago';
+    }
+    return '${diff.inSeconds} sec ago';
   }
 }

@@ -15,6 +15,7 @@ import '../models/user_model.dart';
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource dataSource;
   final FileRemoteDataSource fileRemoteDataSource;
+  final Map<String, UserEntity> _users = {};
 
   UserRepositoryImpl({
     required this.dataSource,
@@ -24,7 +25,9 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<Failure, UserEntity>> registerUser(UserEntity user) async {
     try {
       final res = await dataSource.registerUser(UserModel.fromEntity(user));
-      return Right(res.entity);
+      final registeredUser = res.entity;
+      _updateUsersCache([registeredUser]);
+      return Right(registeredUser);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -36,11 +39,17 @@ class UserRepositoryImpl implements UserRepository {
     throw UnimplementedError();
   }
 
+  void _updateUsersCache(final List<UserEntity> users) {
+    _users.addAll(Map.fromEntries(users.map((e) => MapEntry(e.uid, e))));
+  }
+
   @override
   Future<Either<Failure, UserEntity>> updateUser(UserEntity user) async {
     try {
       final res = await dataSource.updateUser(UserModel.fromEntity(user));
-      return Right(res.entity);
+      final updatedUser = res.entity;
+      _updateUsersCache([updatedUser]);
+      return Right(updatedUser);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -67,7 +76,9 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<Failure, List<UserEntity>>> searchUser(String text) async {
     try {
       final res = await dataSource.searchUser(text);
-      return right(res.map((e) => e.entity).toList());
+      final users = res.map((e) => e.entity).toList();
+      _updateUsersCache(users);
+      return right(users);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -119,5 +130,29 @@ class UserRepositoryImpl implements UserRepository {
   Either<Failure, void> clearSavedPosts() {
     AppService.instance.clearSavedPosts();
     return Right(null);
+  }
+
+  @override
+  Future<Either<Failure, Map<String, UserEntity>>> getAllUsers(
+    List<String> uids,
+  ) async {
+    try {
+      final cachedUids = _users.keys.toSet();
+      final List<String> notFoundUsers = uids
+          .where((element) => !cachedUids.contains(element))
+          .toList();
+
+      if (notFoundUsers.isNotEmpty) {
+        final res = await dataSource.getAllUsers(notFoundUsers);
+        final users = res.map((e) => e.entity).toList();
+        _updateUsersCache(users);
+      }
+      final users = Map.fromEntries(
+        _users.entries.where((element) => uids.contains(element.key)),
+      );
+      return right(users);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
 }

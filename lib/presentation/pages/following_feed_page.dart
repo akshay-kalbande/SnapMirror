@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/injection_container.dart';
+import '../../core/route/routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../domain/entities/post_upload_result_entity.dart';
 import '../../domain/usecases/get_post_feed_subscription_usecase.dart';
@@ -105,7 +107,9 @@ class _FollowingFeedPageState extends State<FollowingFeedPage> {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.push(Routes.chatList);
+                    },
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     icon: const Icon(Icons.messenger_outline_outlined),
                   ),

@@ -15,6 +15,8 @@ abstract class Routes {
   static const comments = '/comments';
   static const settings = '/settings';
   static const editProfile = '/settings/edit-profile';
+  static const chatList = '/chatList';
+  static const chat = '/chat';
   static bool isPublicRoute(final String route) {
     return [splash, login, register].contains(route);
   }

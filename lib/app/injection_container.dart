@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import '../core/app_service.dart';
 import '../core/route/app_router.dart';
 import '../data/data_sources/remote_data_sources/auth_remote_data_source.dart';
+import '../data/data_sources/remote_data_sources/chat_remote_data_source.dart';
 import '../data/data_sources/remote_data_sources/comments_remote_data_source.dart';
 import '../data/data_sources/remote_data_sources/fetch_page_remote_data_source.dart';
 import '../data/data_sources/remote_data_sources/file_remote_data_source.dart';
@@ -16,11 +17,13 @@ import '../data/data_sources/remote_data_sources/follow_remote_data_source.dart'
 import '../data/data_sources/remote_data_sources/post_remote_data_source.dart';
 import '../data/data_sources/remote_data_sources/user_remote_data_source.dart';
 import '../data/repositories/auth_repository_impl.dart';
+import '../data/repositories/chat_repository_impl.dart';
 import '../data/repositories/comments_repository_impl.dart';
 import '../data/repositories/follow_repository_impl.dart';
 import '../data/repositories/post_repository_impl.dart';
 import '../data/repositories/user_repository_impl.dart';
 import '../domain/repositories/auth_repository.dart';
+import '../domain/repositories/chat_repository.dart';
 import '../domain/repositories/comments_repository.dart';
 import '../domain/repositories/follow_repository.dart';
 import '../domain/repositories/post_repository.dart';
@@ -29,6 +32,7 @@ import '../domain/usecases/bookmark_post_usecase.dart';
 import '../domain/usecases/follow_user.dart';
 import '../domain/usecases/get_all_followers_of_user.dart';
 import '../domain/usecases/get_all_followings_of_user.dart';
+import '../domain/usecases/get_chat_preview_list_usecase.dart';
 import '../domain/usecases/get_comment_usecase.dart';
 import '../domain/usecases/get_comments_usecase.dart';
 import '../domain/usecases/get_explore_feed_usecase.dart';
@@ -144,9 +148,7 @@ void init() {
   sl.registerSingleton<GetUserBookmarkedPostsUsecase>(
     GetUserBookmarkedPostsUsecase(sl<UserRepository>()),
   );
-  sl.registerFactory<UpdateProfileUsecase>(
-    () => UpdateProfileUsecase(sl()),
-  );
+  sl.registerFactory<UpdateProfileUsecase>(() => UpdateProfileUsecase(sl()));
 
   sl.registerSingleton<PostRepository>(
     PostRepositoryImpl(postRemoteDataSource: sl(), fileRemoteDataSource: sl()),
@@ -205,5 +207,15 @@ void init() {
   );
   sl.registerLazySingleton<FollowUser>(
     () => FollowUser(sl<FollowRepository>()),
+  );
+
+  sl.registerSingleton<ChatRemoteDataSource>(
+    ChatRemoteDataSourceImpl(firestore: sl()),
+  );
+  sl.registerSingleton<ChatRepository>(
+    ChatRepositoryImpl(dataSource: sl(), userRepository: sl()),
+  );
+  sl.registerFactory<GetChatPreviewListUsecase>(
+    () => GetChatPreviewListUsecase(sl()),
   );
 }

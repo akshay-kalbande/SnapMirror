@@ -10,6 +10,7 @@ abstract class UserRemoteDataSource {
   Future<UserModel> registerUser(final UserModel user);
   Future<UserModel> updateUser(final UserModel user);
   Future<List<UserModel>> searchUser(final String text);
+  Future<List<UserModel>> getAllUsers(final List<String> uids);
   Future<void> deleteUser(final UserModel user);
   Future<Stream<FileUploadResultModel>> uploadProfilePhoto(
     final File file,
@@ -45,7 +46,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<UserModel> updateUser(UserModel user) async {
     try {
-      await firestore.collection(collection).doc(user.uid).update(user.toJson());
+      await firestore
+          .collection(collection)
+          .doc(user.uid)
+          .update(user.toJson());
       return user;
     } catch (e) {
       throw ServerException(message: e.toString());
@@ -112,6 +116,19 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           .collection(bookmarkCollection)
           .get();
       return res.docs.map((e) => e.id).toList();
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<UserModel>> getAllUsers(List<String> uids) async {
+    try {
+      final res = await firestore
+          .collection(collection)
+          .where('uid', whereIn: uids)
+          .get();
+      return res.docs.map((e) => UserModel.fromJson(e.data())).toList();
     } catch (e) {
       throw ServerException(message: e.toString());
     }
