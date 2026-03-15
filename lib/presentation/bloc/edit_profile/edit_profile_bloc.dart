@@ -38,7 +38,16 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     }
     final updatedUser = user.copyWith(username: event.name, bio: event.bio);
     if (user == updatedUser) {
-      emit(state.copyWith(isLoading: true, message: null));
+      emit(
+        state.copyWith(
+          isLoading: false,
+          message: ScreenMessage(
+            content: 'Same info!',
+            timestamp: DateTime.now(),
+            isError: true,
+          ),
+        ),
+      );
       return;
     }
     final res = await updateProfileUsecase(updatedUser);
