@@ -130,7 +130,7 @@ void init() {
     GetLoggedInUserUsecase(
       authRepository: sl<AuthRepository>(),
       userRepository: sl<UserRepository>(),
-      isWindowsDesktop: (Platform.isWindows && !kIsWeb),
+      isWindowsDesktop: (!kIsWeb && Platform.isWindows),
     ),
   );
 
