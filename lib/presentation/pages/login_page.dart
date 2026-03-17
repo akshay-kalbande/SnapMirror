@@ -67,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                       textEditingController: passController,
                       hintText: AppStrings.enterPass,
                       textInputType: TextInputType.visiblePassword,
+                      onSubmit: (value) => loginUser(),
                       isPass: true,
                     ),
                     const SizedBox(height: 24),

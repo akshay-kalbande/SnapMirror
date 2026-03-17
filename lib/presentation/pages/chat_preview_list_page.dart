@@ -6,10 +6,33 @@ import '../../core/route/routes.dart';
 import '../../core/utils/app_utils.dart';
 import '../../domain/entities/chat_preview_entity.dart';
 import '../bloc/chat_preview_list/chat_preview_list_bloc.dart';
+import '../bloc/chat_user_search/chat_user_search_bloc.dart';
 import '../widgets/profile_image.dart';
 
-class ChatPreviewListPage extends StatelessWidget {
+class ChatPreviewListPage extends StatefulWidget {
   const ChatPreviewListPage({super.key});
+
+  @override
+  State<ChatPreviewListPage> createState() => _ChatPreviewListPageState();
+}
+
+class _ChatPreviewListPageState extends State<ChatPreviewListPage> {
+  final SearchController searchController = SearchController();
+  late final ChatUserSearchBloc chatUserSearchBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    chatUserSearchBloc = context.read<ChatUserSearchBloc>();
+    searchController.addListener(() {
+      final text = searchController.text;
+      if (text.isEmpty) {
+        chatUserSearchBloc.add(ChatUserSearchEvent.cleared());
+      } else {
+        chatUserSearchBloc.add(ChatUserSearchEvent.queryChanged(text));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +76,108 @@ class ChatPreviewListPage extends StatelessWidget {
   }
 
   Widget _buildSearchBar() {
+    return SearchAnchor(
+      searchController: searchController,
+      viewBackgroundColor: Colors.black,
+      viewSurfaceTintColor: Colors.transparent,
+      builder: (context, controller) {
+        return SearchBar(
+          controller: controller,
+          hintText: 'Search',
+          onTap: () => controller.openView(),
+          onChanged: (text) {
+            controller.openView();
+            chatUserSearchBloc.add(ChatUserSearchEvent.queryChanged(text));
+          },
+          elevation: WidgetStateProperty.all(0),
+          backgroundColor: WidgetStateProperty.all(Colors.black),
+          surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
+          overlayColor: WidgetStateProperty.all(Colors.transparent),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: BorderSide(color: Colors.grey.shade800, width: 0.5),
+            ),
+          ),
+          padding: WidgetStateProperty.all(
+            const EdgeInsets.symmetric(horizontal: 16),
+          ),
+          textStyle: WidgetStateProperty.all(
+            const TextStyle(color: Colors.white),
+          ),
+          hintStyle: WidgetStateProperty.all(
+            const TextStyle(color: Colors.grey),
+          ),
+          leading: const Icon(Icons.search, color: Colors.grey),
+          trailing: [
+            BlocBuilder<ChatUserSearchBloc, ChatUserSearchState>(
+              bloc: chatUserSearchBloc,
+              builder: (context, state) {
+                if (state.isLoading) {
+                  return const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  );
+                }
+                return IconButton(
+                  icon: const Icon(Icons.clear, color: Colors.grey),
+                  onPressed: () {
+                    controller.clear();
+                    chatUserSearchBloc.add(const ChatUserSearchEvent.cleared());
+                  },
+                );
+              },
+            ),
+          ],
+        );
+      },
+      suggestionsBuilder: (context, controller) {
+        return [
+          BlocBuilder<ChatUserSearchBloc, ChatUserSearchState>(
+            bloc: chatUserSearchBloc,
+            builder: (context, state) {
+              if (state.isLoading) {
+                return const Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              if (state.users.isEmpty && !state.isLoading) {
+                return const ListTile(
+                  title: Text(
+                    'No users found',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
+              }
+
+              return Column(
+                children: state.users.map((user) {
+                  return ListTile(
+                    title: Text(
+                      user.username,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    leading: ProfileImage(
+                      profileImageUrl: user.profileImageUrl,
+                      isSmall: true,
+                    ),
+                    onTap: () {
+                      controller.closeView(user.username);
+                      context.push('${Routes.chatTab}/${user.uid}');
+                    },
+                  );
+                }).toList(),
+              );
+            },
+          ),
+        ];
+      },
+    );
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Container(

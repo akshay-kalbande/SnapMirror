@@ -10,6 +10,10 @@ abstract class UserRemoteDataSource {
   Future<UserModel> registerUser(final UserModel user);
   Future<UserModel> updateUser(final UserModel user);
   Future<List<UserModel>> searchUser(final String text);
+  Future<List<UserModel>> searchFollowingUser(
+    final String text,
+    final UserModel user,
+  );
   Future<List<UserModel>> getAllUsers(final List<String> uids);
   Future<void> deleteUser(final UserModel user);
   Future<Stream<FileUploadResultModel>> uploadProfilePhoto(
@@ -75,6 +79,28 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           .get();
       return res.docs.map((e) => UserModel.fromJson(e.data())).toList();
     } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<UserModel>> searchFollowingUser(
+    String text,
+    final UserModel user,
+  ) async {
+    try {
+      print('searching following user');
+      final res = await firestore
+          .collection(collection)
+          .orderBy('username')
+          // .where('followers', arrayContains: uid)
+          .where('uid', whereIn: user.following)
+          .where('username', isGreaterThanOrEqualTo: text)
+          .where('username', isLessThanOrEqualTo: '$text\uf8ff')
+          .get();
+      return res.docs.map((e) => UserModel.fromJson(e.data())).toList();
+    } catch (e) {
+      print('Error searching following user: ${e.toString()}');
       throw ServerException(message: e.toString());
     }
   }

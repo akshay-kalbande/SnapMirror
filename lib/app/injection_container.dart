@@ -54,6 +54,7 @@ import '../domain/usecases/post_comment_usecase.dart';
 import '../domain/usecases/register_user_usecase.dart';
 import '../domain/usecases/remove_post_from_bookmark_usecase.dart';
 import '../domain/usecases/remove_user_from_follower.dart';
+import '../domain/usecases/search_following_user_usecase.dart';
 import '../domain/usecases/search_user_usecase.dart';
 import '../domain/usecases/send_message_usecase.dart';
 import '../domain/usecases/toggle_comment_like_usecase.dart';
@@ -236,5 +237,8 @@ void init() {
   );
   sl.registerFactory<MarkAllMessagesAsReadUsecase>(
     () => MarkAllMessagesAsReadUsecase(sl()),
+  );
+  sl.registerFactory<SearchFollowingUserUsecase>(
+    () => SearchFollowingUserUsecase(sl()),
   );
 }

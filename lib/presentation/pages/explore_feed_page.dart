@@ -76,118 +76,251 @@ class _ExploreFeedPageState extends State<ExploreFeedPage> {
                       Expanded(
                         child: SearchAnchor(
                           searchController: searchController,
-                          builder:
-                              (
-                                final context,
-                                final SearchController controller,
-                              ) {
-                                return SearchBar(
-                                  controller: controller,
-                                  hintText: 'Search',
-                                  onTap: () => controller.openView(),
-                                  onChanged: (text) {
-                                    controller.openView();
-                                    searchBloc.add(
-                                      SearchEvent.queryChanged(text),
-                                    );
-                                  },
-                                  leading: const Icon(Icons.search),
-                                  trailing: [
-                                    BlocBuilder<SearchBloc, SearchState>(
-                                      bloc: searchBloc,
-                                      builder: (context, state) {
-                                        if (state.isLoading) {
-                                          return const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                        return IconButton(
-                                          icon: const Icon(Icons.clear),
-                                          onPressed: () {
-                                            controller.clear();
-                                            searchBloc.add(
-                                              const SearchEvent.cleared(),
-                                            );
-                                          },
+                          // Makes the expanded view full black
+                          viewBackgroundColor: Colors.black,
+                          // Removes the tint that often makes "black" look dark purple/grey
+                          viewSurfaceTintColor: Colors.transparent,
+                          builder: (context, controller) {
+                            return SearchBar(
+                              controller: controller,
+                              hintText: 'Search',
+                              onTap: () => controller.openView(),
+                              onChanged: (text) {
+                                controller.openView();
+                                searchBloc.add(SearchEvent.queryChanged(text));
+                              },
+                              // --- True Black Styling ---
+                              elevation: WidgetStateProperty.all(0),
+                              backgroundColor: WidgetStateProperty.all(
+                                Colors.black,
+                              ),
+                              surfaceTintColor: WidgetStateProperty.all(
+                                Colors.transparent,
+                              ),
+                              // Removes the "flash" of grey when you tap the bar
+                              overlayColor: WidgetStateProperty.all(
+                                Colors.transparent,
+                              ),
+                              shape: WidgetStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  // Optional: Add a subtle border to keep it visible on black backgrounds
+                                  side: BorderSide(
+                                    color: Colors.grey.shade800,
+                                    width: 0.5,
+                                  ),
+                                ),
+                              ),
+                              padding: WidgetStateProperty.all(
+                                const EdgeInsets.symmetric(horizontal: 16),
+                              ),
+                              textStyle: WidgetStateProperty.all(
+                                const TextStyle(color: Colors.white),
+                              ),
+                              hintStyle: WidgetStateProperty.all(
+                                const TextStyle(color: Colors.grey),
+                              ),
+                              leading: const Icon(
+                                Icons.search,
+                                color: Colors.grey,
+                              ),
+                              trailing: [
+                                BlocBuilder<SearchBloc, SearchState>(
+                                  bloc: searchBloc,
+                                  builder: (context, state) {
+                                    if (state.isLoading) {
+                                      return const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    return IconButton(
+                                      icon: const Icon(
+                                        Icons.clear,
+                                        color: Colors.grey,
+                                      ),
+                                      onPressed: () {
+                                        controller.clear();
+                                        searchBloc.add(
+                                          const SearchEvent.cleared(),
                                         );
                                       },
-                                    ),
-                                  ],
-                                );
-                              },
-                          suggestionsBuilder:
-                              (
-                                final context,
-                                final SearchController controller,
-                              ) {
-                                return [
-                                  BlocBuilder<SearchBloc, SearchState>(
-                                    bloc: searchBloc,
-                                    builder: (context, state) {
-                                      if (state.isLoading) {
-                                        return const Center(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  top: 10.0,
-                                                ),
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }
-                                      if (state.users.isEmpty &&
-                                          !state.isLoading) {
-                                        return const ListTile(
-                                          title: Text('No users found'),
-                                        );
-                                      }
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                          suggestionsBuilder: (context, controller) {
+                            return [
+                              BlocBuilder<SearchBloc, SearchState>(
+                                bloc: searchBloc,
+                                builder: (context, state) {
+                                  if (state.isLoading) {
+                                    return const Padding(
+                                      padding: EdgeInsets.only(top: 20),
+                                      child: Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    );
+                                  }
+                                  if (state.users.isEmpty && !state.isLoading) {
+                                    return const ListTile(
+                                      title: Text(
+                                        'No users found',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    );
+                                  }
 
-                                      return ListView.separated(
-                                        shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemCount: state.users.length,
-                                        separatorBuilder: (context, index) =>
-                                            const Divider(height: 0),
-                                        itemBuilder: (context, index) {
-                                          final user = state.users[index];
-                                          return ListTile(
-                                            title: Text(user.username),
-                                            leading: ProfileImage(
-                                              profileImageUrl:
-                                                  user.profileImageUrl,
-                                              isSmall: true,
-                                            ),
-                                            onTap: () {
-                                              controller.closeView(
-                                                user.username,
-                                              );
-                                              context.push(
-                                                '${Routes.user}/${user.uid}',
-                                              );
-                                            },
+                                  return Column(
+                                    children: state.users.map((user) {
+                                      return ListTile(
+                                        // Ensure text is readable on true black
+                                        title: Text(
+                                          user.username,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        leading: ProfileImage(
+                                          profileImageUrl: user.profileImageUrl,
+                                          isSmall: true,
+                                        ),
+                                        onTap: () {
+                                          controller.closeView(user.username);
+                                          context.push(
+                                            '${Routes.user}/${user.uid}',
                                           );
                                         },
                                       );
-                                    },
-                                  ),
-                                ];
-                              },
+                                    }).toList(),
+                                  );
+                                },
+                              ),
+                            ];
+                          },
                         ),
+                        // child: SearchAnchor(
+                        //   searchController: searchController,
+                        //   builder:
+                        //       (
+                        //         final context,
+                        //         final SearchController controller,
+                        //       ) {
+                        //         return SearchBar(
+                        //           controller: controller,
+                        //           hintText: 'Search',
+                        //           onTap: () => controller.openView(),
+                        //           onChanged: (text) {
+                        //             controller.openView();
+                        //             searchBloc.add(
+                        //               SearchEvent.queryChanged(text),
+                        //             );
+                        //           },
+                        //           leading: const Icon(Icons.search),
+                        //           trailing: [
+                        //             BlocBuilder<SearchBloc, SearchState>(
+                        //               bloc: searchBloc,
+                        //               builder: (context, state) {
+                        //                 if (state.isLoading) {
+                        //                   return const Padding(
+                        //                     padding: EdgeInsets.all(8.0),
+                        //                     child: SizedBox(
+                        //                       width: 20,
+                        //                       height: 20,
+                        //                       child: CircularProgressIndicator(
+                        //                         strokeWidth: 2,
+                        //                       ),
+                        //                     ),
+                        //                   );
+                        //                 }
+                        //                 return IconButton(
+                        //                   icon: const Icon(Icons.clear),
+                        //                   onPressed: () {
+                        //                     controller.clear();
+                        //                     searchBloc.add(
+                        //                       const SearchEvent.cleared(),
+                        //                     );
+                        //                   },
+                        //                 );
+                        //               },
+                        //             ),
+                        //           ],
+                        //         );
+                        //       },
+                        //   suggestionsBuilder:
+                        //       (
+                        //         final context,
+                        //         final SearchController controller,
+                        //       ) {
+                        //         return [
+                        //           BlocBuilder<SearchBloc, SearchState>(
+                        //             bloc: searchBloc,
+                        //             builder: (context, state) {
+                        //               if (state.isLoading) {
+                        //                 return const Center(
+                        //                   child: Row(
+                        //                     mainAxisAlignment:
+                        //                         MainAxisAlignment.center,
+                        //                     mainAxisSize: MainAxisSize.max,
+                        //                     children: [
+                        //                       Padding(
+                        //                         padding: EdgeInsets.only(
+                        //                           top: 10.0,
+                        //                         ),
+                        //                         child:
+                        //                             CircularProgressIndicator(),
+                        //                       ),
+                        //                     ],
+                        //                   ),
+                        //                 );
+                        //               }
+                        //               if (state.users.isEmpty &&
+                        //                   !state.isLoading) {
+                        //                 return const ListTile(
+                        //                   title: Text('No users found'),
+                        //                 );
+                        //               }
+                        //
+                        //               return ListView.separated(
+                        //                 shrinkWrap: true,
+                        //                 physics:
+                        //                     const NeverScrollableScrollPhysics(),
+                        //                 itemCount: state.users.length,
+                        //                 separatorBuilder: (context, index) =>
+                        //                     const Divider(height: 0),
+                        //                 itemBuilder: (context, index) {
+                        //                   final user = state.users[index];
+                        //                   return ListTile(
+                        //                     title: Text(user.username),
+                        //                     leading: ProfileImage(
+                        //                       profileImageUrl:
+                        //                           user.profileImageUrl,
+                        //                       isSmall: true,
+                        //                     ),
+                        //                     onTap: () {
+                        //                       controller.closeView(
+                        //                         user.username,
+                        //                       );
+                        //                       context.push(
+                        //                         '${Routes.user}/${user.uid}',
+                        //                       );
+                        //                     },
+                        //                   );
+                        //                 },
+                        //               );
+                        //             },
+                        //           ),
+                        //         ];
+                        //       },
+                        // ),
                       ),
                     ],
                   );

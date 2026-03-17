@@ -54,6 +54,7 @@ class UploadPostBloc extends Bloc<UploadPostEvent, UploadPostState> {
           username: AppService.instance.user.username,
           profImageUrl: AppService.instance.user.profileImageUrl,
           file: state.file!,
+          user: AppService.instance.user,
         ),
       ),
     );

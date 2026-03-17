@@ -85,6 +85,24 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<Either<Failure, List<UserEntity>>> searchFollowingUser(
+    String text,
+    final UserEntity user,
+  ) async {
+    try {
+      final res = await dataSource.searchFollowingUser(
+        text,
+        UserModel.fromEntity(user),
+      );
+      final users = res.map((e) => e.entity).toList();
+      _updateUsersCache(users);
+      return right(users);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> bookmarkPost(
     String postID,
     String userID,

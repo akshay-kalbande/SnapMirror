@@ -42,6 +42,23 @@ class FollowRemoteDataSourceImpl implements FollowRemoteDataSource {
       batch.update(firestore.collection('users').doc(followingID), {
         'followers': FieldValue.arrayUnion([userID]),
       });
+
+      final userPosts = await firestore
+          .collection('posts')
+          .where('uid', isEqualTo: followingID)
+          .limit(30)
+          .get();
+
+      for (final postDoc in userPosts.docs) {
+        DocumentReference feedRef = firestore
+            .collection('users')
+            .doc(userID)
+            .collection('feed')
+            .doc(postDoc.id);
+
+        batch.set(feedRef, {'datePublished': postDoc.data()['datePublished']});
+      }
+
       await batch.commit();
     } catch (e) {
       throw ServerException(message: e.toString());
@@ -58,6 +75,24 @@ class FollowRemoteDataSourceImpl implements FollowRemoteDataSource {
       batch.update(firestore.collection('users').doc(followingID), {
         'followers': FieldValue.arrayRemove([userID]),
       });
+
+      final usersPosts = await firestore
+          .collection('posts')
+          .where('uid', isEqualTo: followingID)
+          .get();
+
+      for (final doc in usersPosts.docs) {
+        batch.delete(
+          firestore
+              .collection('users')
+              .doc(userID)
+              .collection('feed')
+              .doc(doc.id),
+        );
+      }
+
+      await batch.commit();
+
       await batch.commit();
     } catch (e) {
       throw ServerException(message: e.toString());

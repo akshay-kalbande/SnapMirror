@@ -125,15 +125,27 @@ class _FollowingFeedPageState extends State<FollowingFeedPage> {
                       child: const Center(child: CircularProgressIndicator()),
                     )
                   : state.posts!.items.isEmpty
-                  ? SliverFillRemaining(
-                      child: Center(
-                        child: Text(
-                          (state.message?.isError ?? false)
-                              ? state.message!.content
-                              : 'something went wrong. Try again!',
-                        ),
-                      ),
-                    )
+                  ? (state.message?.isError ?? false)
+                        ? SliverFillRemaining(
+                            child: Center(child: Text(state.message!.content)),
+                          )
+                        : SliverFillRemaining(
+                            child: Center(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                spacing: 10,
+                                children: [
+                                  Text(
+                                    'No Posts Found! Start following your friends to see their posts.',
+                                  ),
+                                  TextButton(
+                                    onPressed: () => context.go(Routes.explore),
+                                    child: Text('👉'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
                   : SliverMainAxisGroup(
                       slivers: [
                         SliverPadding(

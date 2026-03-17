@@ -74,7 +74,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           photo: ProfilePhoto.dirty(
             AppFile(
               bytes: await event.image!.readAsBytes(),
-              path: event.image!.path,
+              path: event.image!.name,
               size: await event.image!.length(),
             ),
           ),

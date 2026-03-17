@@ -8,6 +8,7 @@ import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../../presentation/bloc/auth/auth_bloc.dart';
 import '../../presentation/bloc/chat_preview_list/chat_preview_list_bloc.dart';
+import '../../presentation/bloc/chat_user_search/chat_user_search_bloc.dart';
 import '../../presentation/bloc/comments/comments_bloc.dart';
 import '../../presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import '../../presentation/bloc/explore_feed/explore_feed_bloc.dart';
@@ -151,11 +152,18 @@ class AppRouter extends ChangeNotifier {
                       _buildPageWithDefaultTransition(
                         context: context,
                         state: state,
-                        child: BlocProvider(
-                          create: (context) => ChatPreviewListBloc(
-                            getChatPreviewListUsecase: sl(),
-                            getPreviewMessageStreamUsecase: sl(),
-                          )..add(ChatPreviewListEvent.started()),
+                        child: MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (context) => ChatPreviewListBloc(
+                                getChatPreviewListUsecase: sl(),
+                                getPreviewMessageStreamUsecase: sl(),
+                              )..add(ChatPreviewListEvent.started()),
+                            ),
+                            BlocProvider(
+                              create: (context) => ChatUserSearchBloc(sl()),
+                            ),
+                          ],
                           child: const ChatPreviewListPage(),
                         ),
                       ),

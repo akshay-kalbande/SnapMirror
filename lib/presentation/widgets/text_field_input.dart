@@ -6,6 +6,7 @@ class TextFieldInput extends StatelessWidget {
   final String hintText;
   final TextInputType textInputType;
   final Function(String value)? onChanged;
+  final Function(String value)? onSubmit;
   final String? errorText;
   final String? Function(String? value)? validator;
 
@@ -18,6 +19,7 @@ class TextFieldInput extends StatelessWidget {
     this.onChanged,
     this.errorText,
     this.validator,
+    this.onSubmit,
   });
 
   @override
@@ -31,6 +33,7 @@ class TextFieldInput extends StatelessWidget {
       keyboardType: textInputType,
       onChanged: onChanged,
       validator: validator,
+      onFieldSubmitted: onSubmit,
       decoration: InputDecoration(
         hintText: hintText,
         border: inputBorder,

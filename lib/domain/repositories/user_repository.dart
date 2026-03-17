@@ -10,6 +10,10 @@ abstract class UserRepository {
   Future<Either<Failure, UserEntity>> registerUser(final UserEntity user);
   Future<Either<Failure, UserEntity>> updateUser(final UserEntity user);
   Future<Either<Failure, List<UserEntity>>> searchUser(final String text);
+  Future<Either<Failure, List<UserEntity>>> searchFollowingUser(
+    final String text,
+    final UserEntity user,
+  );
   Either<Failure, UserEntity> getUserSync(final String uid);
   Future<Either<Failure, Map<String, UserEntity>>> getAllUsers(
     final List<String> uids,

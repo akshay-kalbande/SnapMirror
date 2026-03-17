@@ -4,6 +4,7 @@ import '../../../core/app_exceptions/exception.dart';
 import '../../models/page_request_model.dart';
 import '../../models/page_result_model.dart';
 import '../../models/post_model.dart';
+import '../../models/user_model.dart';
 import 'fetch_page_remote_data_source.dart';
 
 abstract class PostRemoteDataSource {
@@ -18,7 +19,7 @@ abstract class PostRemoteDataSource {
   Future<PageResultModel<PostModel>> fetchExploreFeed(
     final PageRequestModel pageRequest,
   );
-  Future<PostModel> uploadPost(final PostModel post);
+  Future<PostModel> uploadPost(PostModel post, final UserModel user);
 }
 
 class PostRemoteDataSourceImpl implements PostRemoteDataSource {
@@ -67,12 +68,39 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   }
 
   @override
-  Future<PostModel> uploadPost(PostModel post) async {
+  Future<PostModel> uploadPost(
+    final PostModel post,
+    final UserModel user,
+  ) async {
     try {
       await firestore
           .collection(_collection)
           .doc(post.postId)
           .set(post.toJson());
+
+      final followerIds = user.followers;
+
+      for (var i = 0; i < followerIds.length; i += 499) {
+        final batch = firestore.batch();
+
+        final chunk = followerIds.sublist(
+          i,
+          i + 499 > followerIds.length ? followerIds.length : i + 499,
+        );
+
+        for (String followerId in chunk) {
+          DocumentReference feedRef = firestore
+              .collection('users')
+              .doc(followerId)
+              .collection('feed')
+              .doc(post.postId);
+
+          batch.set(feedRef, {'datePublished': post.datePublished});
+        }
+
+        await batch.commit();
+      }
+
       return post;
     } catch (e) {
       throw ServerException(message: e.toString());

@@ -8,6 +8,7 @@ import '../../core/usecases/usecase.dart';
 import '../entities/file_upload_result_entity.dart';
 import '../entities/post_entity.dart';
 import '../entities/post_upload_result_entity.dart';
+import '../entities/user_entity.dart';
 import '../repositories/post_repository.dart';
 
 class UploadPostUsecase
@@ -39,6 +40,7 @@ class UploadPostUsecase
                   postUrl: path,
                   imageUrl: path,
                 ),
+                params.user,
               );
               return postRes.fold(
                 (l) => PostUploadResultEntity.error(l),
@@ -60,6 +62,7 @@ class UploadPostParams extends Equatable {
   final String uid;
   final String username;
   final String profImageUrl;
+  final UserEntity user;
 
   const UploadPostParams({
     required this.file,
@@ -67,9 +70,10 @@ class UploadPostParams extends Equatable {
     required this.uid,
     required this.username,
     required this.profImageUrl,
+    required this.user,
   });
   @override
-  List<Object?> get props => [file, caption, uid, username, profImageUrl];
+  List<Object?> get props => [file, caption, uid, username, profImageUrl, user];
 
   PostEntity get entity => PostEntity(
     caption: caption,

@@ -9,12 +9,14 @@ import '../../domain/entities/file_upload_result_entity.dart';
 import '../../domain/entities/page_request_entity.dart';
 import '../../domain/entities/page_result_entity.dart';
 import '../../domain/entities/post_entity.dart';
+import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/post_repository.dart';
 import '../data_sources/remote_data_sources/file_remote_data_source.dart';
 import '../data_sources/remote_data_sources/post_remote_data_source.dart';
 import '../models/file_upload_result_model.dart';
 import '../models/page_request_model.dart';
 import '../models/post_model.dart';
+import '../models/user_model.dart';
 
 class PostRepositoryImpl implements PostRepository {
   final PostRemoteDataSource postRemoteDataSource;
@@ -142,11 +144,15 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<Either<Failure, PostEntity>> uploadPost(PostEntity post) async {
+  Future<Either<Failure, PostEntity>> uploadPost(
+    PostEntity post,
+    final UserEntity user,
+  ) async {
     try {
       return Right(
         (await postRemoteDataSource.uploadPost(
           PostModel.fromEntity(post),
+          UserModel.fromEntity(user),
         )).entity,
       );
     } catch (e) {
