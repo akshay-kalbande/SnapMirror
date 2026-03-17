@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../core/app_service.dart';
 import '../../core/route/routes.dart';
 import '../../core/utils/app_utils.dart';
@@ -39,11 +40,19 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     return BlocConsumer<PostCardBloc, PostCardState>(
-      listenWhen: (previous, current) =>
-          (current.whenOrNull(loaded: (post, bookmarked) => bookmarked) ??
-              true) !=
-          (previous.whenOrNull(loaded: (post, bookmarked) => bookmarked) ??
-              true),
+      // listenWhen: (previous, current) =>
+      //     (current.whenOrNull(loaded: (post, bookmarked) => bookmarked) ??
+      //         true) !=
+      //     (previous.whenOrNull(loaded: (post, bookmarked) => bookmarked) ??
+      //         true),
+      listenWhen: (previous, current) => previous.maybeWhen(
+        loaded: (prevPost, prevBookmarked) => current.maybeWhen(
+          loaded: (currPost, currBookmarked) =>
+              prevBookmarked != currBookmarked,
+          orElse: () => false,
+        ),
+        orElse: () => false,
+      ),
       listener: (context, state) {
         state.whenOrNull(
           loaded: (post, bookmarked) => AppUtils.showInfoMessage(
@@ -53,7 +62,65 @@ class _PostCardState extends State<PostCard> {
         );
       },
       builder: (context, state) => state.map(
-        loading: (value) => Center(child: const CircularProgressIndicator()),
+        // loading: (value) => Center(child: const CircularProgressIndicator()),
+        loading: (value) => Shimmer.fromColors(
+          baseColor: Colors.grey.shade900,
+          highlightColor: Colors.grey.shade800,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.white,
+                    ),
+                    const SizedBox(width: 12),
+                    Container(
+                      width: 120,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                // Main Post Image area
+                Container(
+                  width: double.infinity,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Caption lines
+                Container(
+                  width: double.infinity,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: 150,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         error: (error) => Center(child: Text(error.error)),
         loaded: (value) {
           final bloc = context.read<PostCardBloc>();
@@ -87,28 +154,6 @@ class _PostCardState extends State<PostCard> {
                               profileImageUrl: value.post.profImageUrl,
                               isSmall: true,
                             ),
-                            // Container(
-                            //   height: 32,
-                            //   width: 32,
-                            //   decoration: BoxDecoration(
-                            //     shape: BoxShape.circle,
-                            //     image: DecorationImage(
-                            //       image: CachedNetworkImageProvider(
-                            //         value.post.profImageUrl,
-                            //       ),
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //   ),
-                            // ),
-                            // CircleAvatar(
-                            //   radius: 16,
-                            //   // backgroundImage: NetworkImage(widget.snap['profImageUrl']),
-                            //   child: CachedNetworkImage(
-                            //     imageUrl: value.post.profImageUrl,
-                            //     errorWidget: (context, url, error) =>
-                            //         const Icon(Icons.error),
-                            //   ),
-                            // ),
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
                               child: Text(value.post.username),
@@ -167,26 +212,6 @@ class _PostCardState extends State<PostCard> {
                               ),
                             ],
                           ),
-                          // builder: (context) => Dialog(
-                          //   child: ListView(
-                          //     padding: EdgeInsets.symmetric(vertical: 16),
-                          //     shrinkWrap: true,
-                          //     children: [
-                          //       "delete",
-                          //     ]
-                          //         .map((e) => InkWell(
-                          //               onTap: () {},
-                          //               child: Container(
-                          //                 padding: const EdgeInsets.symmetric(
-                          //                   vertical: 12,
-                          //                   horizontal: 16,
-                          //                 ),
-                          //                 child: Text(e),
-                          //               ),
-                          //             ))
-                          //         .toList(),
-                          //   ),
-                          // ),
                         ),
                         icon: const Icon(Icons.more_vert),
                       ),
@@ -255,18 +280,6 @@ class _PostCardState extends State<PostCard> {
                       icon: const Icon(Icons.send, color: Colors.white),
                     ),
                     Flexible(child: Container()),
-                    // IconButton(
-                    //   onPressed: () {
-                    //     // setState(() {
-                    //     //   isSaved = !isSaved;
-                    //     // });
-                    //   },
-                    //   icon:
-                    //       // isSaved
-                    //       //     ? const Icon(Icons.bookmark)
-                    //       //     :
-                    //       const Icon(Icons.bookmark_outline_outlined),
-                    // ),
                   ],
                 ),
                 Padding(
