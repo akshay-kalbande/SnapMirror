@@ -82,7 +82,7 @@ class _ChatTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        context.push('${Routes.chat}/${chatPreview.user.uid}');
+        context.push('${Routes.chatTab}/${chatPreview.user.uid}');
       },
       leading: Stack(
         children: [

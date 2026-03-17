@@ -15,12 +15,11 @@ abstract class Routes {
   static const comments = '/comments';
   static const settings = '/settings';
   static const editProfile = '/settings/edit-profile';
-  static const chatList = '/chatList';
-  static const chat = '/chat';
+  static const chatTab = '/chatTab';
   static bool isPublicRoute(final String route) {
     return [splash, login, register].contains(route);
   }
 
   static bool hideBottomNav(final String route) =>
-      ![home, explore, post, notifications, profile].contains(route);
+      ![home, explore, chatTab, post, notifications, profile].contains(route);
 }

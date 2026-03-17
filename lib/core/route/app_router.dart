@@ -145,6 +145,53 @@ class AppRouter extends ChangeNotifier {
             StatefulShellBranch(
               routes: [
                 GoRoute(
+                  path: Routes.chatTab,
+                  name: 'chatTab',
+                  pageBuilder: (context, state) =>
+                      _buildPageWithDefaultTransition(
+                        context: context,
+                        state: state,
+                        child: BlocProvider(
+                          create: (context) => ChatPreviewListBloc(
+                            getChatPreviewListUsecase: sl(),
+                            getPreviewMessageStreamUsecase: sl(),
+                          )..add(ChatPreviewListEvent.started()),
+                          child: const ChatPreviewListPage(),
+                        ),
+                      ),
+                  routes: [
+                    GoRoute(
+                      path: ':userId',
+                      name: 'chat',
+                      pageBuilder: (context, state) {
+                        late UserEntity user;
+                        sl<UserRepository>()
+                            .getUserSync(state.pathParameters['userId']!)
+                            .fold((l) => throw Exception(l), (r) => user = r);
+                        return _buildPageWithDefaultTransition(
+                          context: context,
+                          state: state,
+                          child: BlocProvider(
+                            create: (context) => UserChatBloc(
+                              getUserChatsUsecase: sl(),
+                              user: user,
+                              sendMessageUsecase: sl(),
+                              getChatStreamUsecase: sl(),
+                              clearUnreadCountUsecase: sl(),
+                              markAllMessagesAsReadUsecase: sl(),
+                            )..add(UserChatEvent.started()),
+                            child: const ChatPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
                   path: Routes.post,
                   name: 'post',
                   pageBuilder: (context, state) =>
@@ -159,6 +206,7 @@ class AppRouter extends ChangeNotifier {
                 ),
               ],
             ),
+
             // StatefulShellBranch(
             //   routes: [
             //     GoRoute(
@@ -336,46 +384,47 @@ class AppRouter extends ChangeNotifier {
             ),
           ),
         ),
-        GoRoute(
-          path: Routes.chatList,
-          name: 'chatList',
-          pageBuilder: (context, state) => _buildPageWithDefaultTransition(
-            context: context,
-            state: state,
-            child: BlocProvider(
-              create: (context) => ChatPreviewListBloc(
-                getChatPreviewListUsecase: sl(),
-                getPreviewMessageStreamUsecase: sl(),
-              )..add(ChatPreviewListEvent.started()),
-              child: const ChatPreviewListPage(),
-            ),
-          ),
-        ),
-        GoRoute(
-          path: '${Routes.chat}/:userId',
-          name: 'chat',
-          pageBuilder: (context, state) {
-            late UserEntity user;
-            sl<UserRepository>()
-                .getUserSync(state.pathParameters['userId']!)
-                .fold((l) => throw Exception(l), (r) => user = r);
-            return _buildPageWithDefaultTransition(
-              context: context,
-              state: state,
-              child: BlocProvider(
-                create: (context) => UserChatBloc(
-                  getUserChatsUsecase: sl(),
-                  user: user,
-                  sendMessageUsecase: sl(),
-                  getChatStreamUsecase: sl(),
-                  clearUnreadCountUsecase: sl(),
-                  markAllMessagesAsReadUsecase: sl(),
-                )..add(UserChatEvent.started()),
-                child: const ChatPage(),
-              ),
-            );
-          },
-        ),
+        // GoRoute(
+        //   path: Routes.chatList,
+        //   name: 'chatList',
+        //   pageBuilder: (context, state) => _buildPageWithDefaultTransition(
+        //     context: context,
+        //     state: state,
+        //     child: BlocProvider(
+        //       create: (context) => ChatPreviewListBloc(
+        //         getChatPreviewListUsecase: sl(),
+        //         getPreviewMessageStreamUsecase: sl(),
+        //       )..add(ChatPreviewListEvent.started()),
+        //       child: const ChatPreviewListPage(),
+        //     ),
+        //   ),
+        // ),
+
+        // GoRoute(
+        //   path: '${Routes.chat}/:userId',
+        //   name: 'chat',
+        //   pageBuilder: (context, state) {
+        //     late UserEntity user;
+        //     sl<UserRepository>()
+        //         .getUserSync(state.pathParameters['userId']!)
+        //         .fold((l) => throw Exception(l), (r) => user = r);
+        //     return _buildPageWithDefaultTransition(
+        //       context: context,
+        //       state: state,
+        //       child: BlocProvider(
+        //         create: (context) => UserChatBloc(
+        //           getUserChatsUsecase: sl(),
+        //           user: user,
+        //           sendMessageUsecase: sl(),
+        //           getChatStreamUsecase: sl(),
+        //           clearUnreadCountUsecase: sl(),
+        //           markAllMessagesAsReadUsecase: sl(),
+        //         )..add(UserChatEvent.started()),
+        //         child: const ChatPage(),
+        //       ),
+        //     );
+        //   },
+        // ),
       ],
     );
   }

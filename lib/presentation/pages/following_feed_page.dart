@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/injection_container.dart';
@@ -64,7 +63,6 @@ class _FollowingFeedPageState extends State<FollowingFeedPage> {
               floating: true,
               toolbarHeight: 0,
               elevation: 0,
-              // backgroundColor: Colors.white,
               bottom: PreferredSize(
                 preferredSize: Size.fromHeight(
                   context.watch<UploadBloc>().state.canUpload ||
@@ -108,7 +106,7 @@ class _FollowingFeedPageState extends State<FollowingFeedPage> {
                 actions: [
                   IconButton(
                     onPressed: () {
-                      context.push(Routes.chatList);
+                      context.push(Routes.chatTab);
                     },
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     icon: const Icon(Icons.messenger_outline_outlined),
