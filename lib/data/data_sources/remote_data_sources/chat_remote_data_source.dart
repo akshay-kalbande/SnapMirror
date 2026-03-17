@@ -36,6 +36,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       final res = await firestore
           .collection(collection)
           .where('participants', arrayContains: self.uid)
+          .orderBy('lastMessageTimestamp', descending: true)
           .get();
       return res.docs
           .map((e) => ChatPreviewModel.fromJson(e.data()..addAll({'id': e.id})))
@@ -77,12 +78,22 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
           .doc(id)
           .collection(msgCollection)
           .add(message.toJson());
-      await firestore.collection(collection).doc(id).update({
-        'lastSenderId': self.uid,
-        'lastMessageTimestamp': message.timestamp,
-        'lastMessage': message.text,
-        'unreadCount.$userId': FieldValue.increment(1),
-      });
+      try {
+        await firestore.collection(collection).doc(id).update({
+          'lastSenderId': self.uid,
+          'lastMessageTimestamp': message.timestamp,
+          'lastMessage': message.text,
+          'unreadCount.$userId': FieldValue.increment(1),
+        });
+      } catch (e) {
+        await firestore.collection(collection).doc(id).set({
+          'lastSenderId': self.uid,
+          'lastMessageTimestamp': message.timestamp,
+          'lastMessage': message.text,
+          'unreadCount': {userId: 1, self.uid: 0},
+          'participants': [self.uid, userId],
+        });
+      }
       return ChatModel.fromJson((await res.get()).data()!);
     } catch (e) {
       throw ServerException(message: e.toString());

@@ -156,6 +156,9 @@ class _ChatPageState extends State<ChatPage> {
                   controller: _controller,
                   maxLines: 5,
                   minLines: 1,
+                  onSubmitted: (value) => _sendMessage(),
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
                     hintText: 'Message...',
                     hintStyle: TextStyle(color: Colors.grey),
