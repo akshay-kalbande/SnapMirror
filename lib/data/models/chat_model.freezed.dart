@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ChatModel {
 
-@JsonKey(name: 'text') String get text;
+@JsonKey(name: 'text') String get text;@JsonKey(name: 'seen') bool get seen;@JsonKey(name: 'senderId') String get senderId;@JsonKey(name: 'timestamp')@TimeStampConverter() DateTime get timestamp;
 /// Create a copy of ChatModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ChatModelCopyWith<ChatModel> get copyWith => _$ChatModelCopyWithImpl<ChatModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatModel&&(identical(other.text, text) || other.text == text));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatModel&&(identical(other.text, text) || other.text == text)&&(identical(other.seen, seen) || other.seen == seen)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,text);
+int get hashCode => Object.hash(runtimeType,text,seen,senderId,timestamp);
 
 @override
 String toString() {
-  return 'ChatModel(text: $text)';
+  return 'ChatModel(text: $text, seen: $seen, senderId: $senderId, timestamp: $timestamp)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ChatModelCopyWith<$Res>  {
   factory $ChatModelCopyWith(ChatModel value, $Res Function(ChatModel) _then) = _$ChatModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'text') String text
+@JsonKey(name: 'text') String text,@JsonKey(name: 'seen') bool seen,@JsonKey(name: 'senderId') String senderId,@JsonKey(name: 'timestamp')@TimeStampConverter() DateTime timestamp
 });
 
 
@@ -65,10 +65,13 @@ class _$ChatModelCopyWithImpl<$Res>
 
 /// Create a copy of ChatModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? text = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? text = null,Object? seen = null,Object? senderId = null,Object? timestamp = null,}) {
   return _then(_self.copyWith(
 text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
-as String,
+as String,seen: null == seen ? _self.seen : seen // ignore: cast_nullable_to_non_nullable
+as bool,senderId: null == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
+as String,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as DateTime,
   ));
 }
 
@@ -150,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'text')  String text)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'text')  String text, @JsonKey(name: 'seen')  bool seen, @JsonKey(name: 'senderId')  String senderId, @JsonKey(name: 'timestamp')@TimeStampConverter()  DateTime timestamp)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatModel() when $default != null:
-return $default(_that.text);case _:
+return $default(_that.text,_that.seen,_that.senderId,_that.timestamp);case _:
   return orElse();
 
 }
@@ -171,10 +174,10 @@ return $default(_that.text);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'text')  String text)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'text')  String text, @JsonKey(name: 'seen')  bool seen, @JsonKey(name: 'senderId')  String senderId, @JsonKey(name: 'timestamp')@TimeStampConverter()  DateTime timestamp)  $default,) {final _that = this;
 switch (_that) {
 case _ChatModel():
-return $default(_that.text);}
+return $default(_that.text,_that.seen,_that.senderId,_that.timestamp);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -188,10 +191,10 @@ return $default(_that.text);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'text')  String text)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'text')  String text, @JsonKey(name: 'seen')  bool seen, @JsonKey(name: 'senderId')  String senderId, @JsonKey(name: 'timestamp')@TimeStampConverter()  DateTime timestamp)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatModel() when $default != null:
-return $default(_that.text);case _:
+return $default(_that.text,_that.seen,_that.senderId,_that.timestamp);case _:
   return null;
 
 }
@@ -203,10 +206,13 @@ return $default(_that.text);case _:
 @JsonSerializable()
 
 class _ChatModel extends ChatModel {
-  const _ChatModel({@JsonKey(name: 'text') required this.text}): super._();
+  const _ChatModel({@JsonKey(name: 'text') required this.text, @JsonKey(name: 'seen') required this.seen, @JsonKey(name: 'senderId') required this.senderId, @JsonKey(name: 'timestamp')@TimeStampConverter() required this.timestamp}): super._();
   factory _ChatModel.fromJson(Map<String, dynamic> json) => _$ChatModelFromJson(json);
 
 @override@JsonKey(name: 'text') final  String text;
+@override@JsonKey(name: 'seen') final  bool seen;
+@override@JsonKey(name: 'senderId') final  String senderId;
+@override@JsonKey(name: 'timestamp')@TimeStampConverter() final  DateTime timestamp;
 
 /// Create a copy of ChatModel
 /// with the given fields replaced by the non-null parameter values.
@@ -221,16 +227,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatModel&&(identical(other.text, text) || other.text == text));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatModel&&(identical(other.text, text) || other.text == text)&&(identical(other.seen, seen) || other.seen == seen)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,text);
+int get hashCode => Object.hash(runtimeType,text,seen,senderId,timestamp);
 
 @override
 String toString() {
-  return 'ChatModel(text: $text)';
+  return 'ChatModel(text: $text, seen: $seen, senderId: $senderId, timestamp: $timestamp)';
 }
 
 
@@ -241,7 +247,7 @@ abstract mixin class _$ChatModelCopyWith<$Res> implements $ChatModelCopyWith<$Re
   factory _$ChatModelCopyWith(_ChatModel value, $Res Function(_ChatModel) _then) = __$ChatModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'text') String text
+@JsonKey(name: 'text') String text,@JsonKey(name: 'seen') bool seen,@JsonKey(name: 'senderId') String senderId,@JsonKey(name: 'timestamp')@TimeStampConverter() DateTime timestamp
 });
 
 
@@ -258,10 +264,13 @@ class __$ChatModelCopyWithImpl<$Res>
 
 /// Create a copy of ChatModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? text = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? text = null,Object? seen = null,Object? senderId = null,Object? timestamp = null,}) {
   return _then(_ChatModel(
 text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
-as String,
+as String,seen: null == seen ? _self.seen : seen // ignore: cast_nullable_to_non_nullable
+as bool,senderId: null == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
+as String,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as DateTime,
   ));
 }
 

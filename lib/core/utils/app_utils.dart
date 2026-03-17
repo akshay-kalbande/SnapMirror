@@ -6,6 +6,7 @@ abstract class AppUtils {
   static void showInfoMessage(final BuildContext context, final String text) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration: const Duration(seconds: 1),
         content: Text(text, style: TextStyle(color: Colors.blue)),
       ),
     );

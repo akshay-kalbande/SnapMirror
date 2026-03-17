@@ -37,15 +37,13 @@ class ChatPreviewListPage extends StatelessWidget {
             builder: (context, state) => Expanded(
               child: state.chatPreviewList.isEmpty
                   ? Center(child: Text('No Chats Found!!'))
-                  : Expanded(
-                      child: ListView.separated(
-                        itemCount: state.chatPreviewList.length,
-                        separatorBuilder: (context, index) =>
-                            const Divider(height: 1, indent: 80),
-                        itemBuilder: (context, index) {
-                          return _ChatTile(state.chatPreviewList[index]);
-                        },
-                      ),
+                  : ListView.separated(
+                      itemCount: state.chatPreviewList.length,
+                      separatorBuilder: (context, index) =>
+                          const Divider(height: 1, indent: 80),
+                      itemBuilder: (context, index) {
+                        return _ChatTile(state.chatPreviewList[index]);
+                      },
                     ),
             ),
           ),
@@ -84,18 +82,10 @@ class _ChatTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        context.push(Routes.chat);
+        context.push('${Routes.chat}/${chatPreview.user.uid}');
       },
       leading: Stack(
         children: [
-          // const CircleAvatar(
-          //   radius: 28,
-          //   backgroundColor: Colors.grey,
-          //   child: Icon(
-          //     Icons.person,
-          //     color: Colors.white,
-          //   ), // Replace with NetworkImage
-          // ),
           ProfileImage(
             profileImageUrl: chatPreview.user.profileImageUrl,
             isSmall: true,
@@ -165,94 +155,3 @@ class _ChatTile extends StatelessWidget {
     );
   }
 }
-
-// class _ChatTile extends StatelessWidget {
-//   final String username;
-//   final String lastMessage;
-//   final String time;
-//   final int unreadCount;
-//   final bool isOnline;
-//
-//   const _ChatTile({
-//     required this.username,
-//     required this.lastMessage,
-//     required this.time,
-//     required this.unreadCount,
-//     required this.isOnline,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListTile(
-//       onTap: () {
-//         context.push(Routes.chat);
-//       },
-//       leading: Stack(
-//         children: [
-//           const CircleAvatar(
-//             radius: 28,
-//             backgroundColor: Colors.grey,
-//             child: Icon(
-//               Icons.person,
-//               color: Colors.white,
-//             ), // Replace with NetworkImage
-//           ),
-//           if (isOnline)
-//             Positioned(
-//               right: 0,
-//               bottom: 0,
-//               child: Container(
-//                 width: 14,
-//                 height: 14,
-//                 decoration: BoxDecoration(
-//                   color: Colors.green,
-//                   shape: BoxShape.circle,
-//                   border: Border.all(
-//                     color: Theme.of(context).scaffoldBackgroundColor,
-//                     width: 2,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//         ],
-//       ),
-//       title: Text(
-//         username,
-//         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-//       ),
-//       subtitle: Text(
-//         lastMessage,
-//         maxLines: 1,
-//         overflow: TextOverflow.ellipsis,
-//         style: TextStyle(
-//           color: unreadCount > 0 ? Colors.white : Colors.grey,
-//           fontWeight: unreadCount > 0 ? FontWeight.w600 : FontWeight.normal,
-//         ),
-//       ),
-//       trailing: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         crossAxisAlignment: CrossAxisAlignment.end,
-//         children: [
-//           Text(time, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-//           const SizedBox(height: 4),
-//           if (unreadCount > 0)
-//             Container(
-//               padding: const EdgeInsets.all(6),
-//               decoration: const BoxDecoration(
-//                 color: Colors.blueAccent,
-//                 shape: BoxShape.circle,
-//               ),
-//               child: Text(
-//                 unreadCount.toString(),
-//                 style: const TextStyle(
-//                   color: Colors.white,
-//                   fontSize: 10,
-//                   fontWeight: FontWeight.bold,
-//                 ),
-//               ),
-//             ),
-//         ],
-//       ),
-//     );
-//   }
-// }

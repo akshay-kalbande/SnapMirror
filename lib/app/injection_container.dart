@@ -29,10 +29,12 @@ import '../domain/repositories/follow_repository.dart';
 import '../domain/repositories/post_repository.dart';
 import '../domain/repositories/user_repository.dart';
 import '../domain/usecases/bookmark_post_usecase.dart';
+import '../domain/usecases/clear_unread_count_usecase.dart';
 import '../domain/usecases/follow_user.dart';
 import '../domain/usecases/get_all_followers_of_user.dart';
 import '../domain/usecases/get_all_followings_of_user.dart';
 import '../domain/usecases/get_chat_preview_list_usecase.dart';
+import '../domain/usecases/get_chat_stream_usecase.dart';
 import '../domain/usecases/get_comment_usecase.dart';
 import '../domain/usecases/get_comments_usecase.dart';
 import '../domain/usecases/get_explore_feed_usecase.dart';
@@ -41,15 +43,19 @@ import '../domain/usecases/get_logged_in_user_usecase.dart';
 import '../domain/usecases/get_post_feed_subscription_usecase.dart';
 import '../domain/usecases/get_post_usecase.dart';
 import '../domain/usecases/get_posts_of_user.dart';
+import '../domain/usecases/get_preview_message_stream.dart';
 import '../domain/usecases/get_user_bookmarked_posts_usecase.dart';
+import '../domain/usecases/get_user_chats_usecase.dart';
 import '../domain/usecases/get_user_usecase.dart';
 import '../domain/usecases/login_user_usecase.dart';
 import '../domain/usecases/logout_user_usecase.dart';
+import '../domain/usecases/mark_all_messages_as_read_usecase.dart';
 import '../domain/usecases/post_comment_usecase.dart';
 import '../domain/usecases/register_user_usecase.dart';
 import '../domain/usecases/remove_post_from_bookmark_usecase.dart';
 import '../domain/usecases/remove_user_from_follower.dart';
 import '../domain/usecases/search_user_usecase.dart';
+import '../domain/usecases/send_message_usecase.dart';
 import '../domain/usecases/toggle_comment_like_usecase.dart';
 import '../domain/usecases/toggle_post_usecase.dart';
 import '../domain/usecases/unfollow_user.dart';
@@ -217,5 +223,18 @@ void init() {
   );
   sl.registerFactory<GetChatPreviewListUsecase>(
     () => GetChatPreviewListUsecase(sl()),
+  );
+
+  sl.registerFactory<GetUserChatsUsecase>(() => GetUserChatsUsecase(sl()));
+  sl.registerFactory<SendMessageUsecase>(() => SendMessageUsecase(sl()));
+  sl.registerFactory<GetPreviewMessageStreamUsecase>(
+    () => GetPreviewMessageStreamUsecase(sl()),
+  );
+  sl.registerFactory<GetChatStreamUsecase>(() => GetChatStreamUsecase(sl()));
+  sl.registerFactory<ClearUnreadCountUsecase>(
+    () => ClearUnreadCountUsecase(sl()),
+  );
+  sl.registerFactory<MarkAllMessagesAsReadUsecase>(
+    () => MarkAllMessagesAsReadUsecase(sl()),
   );
 }

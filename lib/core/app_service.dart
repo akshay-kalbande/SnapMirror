@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../domain/entities/user_entity.dart';
+import '../domain/repositories/user_repository.dart';
 
 class AppService {
   AppService._();

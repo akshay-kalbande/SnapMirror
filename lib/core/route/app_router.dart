@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/injection_container.dart';
 import '../../common/main_scaffold.dart';
 import '../../domain/entities/user_entity.dart';
+import '../../domain/repositories/user_repository.dart';
 import '../../presentation/bloc/auth/auth_bloc.dart';
 import '../../presentation/bloc/chat_preview_list/chat_preview_list_bloc.dart';
 import '../../presentation/bloc/comments/comments_bloc.dart';
@@ -18,6 +19,7 @@ import '../../presentation/bloc/profile/profile_bloc.dart';
 import '../../presentation/bloc/register/register_bloc.dart';
 import '../../presentation/bloc/search/search_bloc.dart';
 import '../../presentation/bloc/upload_post/upload_post_bloc.dart';
+import '../../presentation/bloc/user_chat/user_chat_bloc.dart';
 import '../../presentation/pages/chat_preview_list_page.dart';
 import '../../presentation/pages/chat_page.dart';
 import '../../presentation/pages/upload_post_page.dart';
@@ -341,21 +343,38 @@ class AppRouter extends ChangeNotifier {
             context: context,
             state: state,
             child: BlocProvider(
-              create: (context) =>
-                  ChatPreviewListBloc(sl())
-                    ..add(ChatPreviewListEvent.started()),
+              create: (context) => ChatPreviewListBloc(
+                getChatPreviewListUsecase: sl(),
+                getPreviewMessageStreamUsecase: sl(),
+              )..add(ChatPreviewListEvent.started()),
               child: const ChatPreviewListPage(),
             ),
           ),
         ),
         GoRoute(
-          path: Routes.chat,
+          path: '${Routes.chat}/:userId',
           name: 'chat',
-          pageBuilder: (context, state) => _buildPageWithDefaultTransition(
-            context: context,
-            state: state,
-            child: const ChatPage(username: 'ak'),
-          ),
+          pageBuilder: (context, state) {
+            late UserEntity user;
+            sl<UserRepository>()
+                .getUserSync(state.pathParameters['userId']!)
+                .fold((l) => throw Exception(l), (r) => user = r);
+            return _buildPageWithDefaultTransition(
+              context: context,
+              state: state,
+              child: BlocProvider(
+                create: (context) => UserChatBloc(
+                  getUserChatsUsecase: sl(),
+                  user: user,
+                  sendMessageUsecase: sl(),
+                  getChatStreamUsecase: sl(),
+                  clearUnreadCountUsecase: sl(),
+                  markAllMessagesAsReadUsecase: sl(),
+                )..add(UserChatEvent.started()),
+                child: const ChatPage(),
+              ),
+            );
+          },
         ),
       ],
     );

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../common/widgets/screen_loader.dart';
+import '../bloc/user_chat/user_chat_bloc.dart';
 import '../widgets/profile_image.dart';
 
 class ChatPage extends StatefulWidget {
-  final String username;
-  const ChatPage({super.key, required this.username});
+  const ChatPage({super.key});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -14,107 +16,94 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _controller = TextEditingController();
 
-  final List<ChatMessage> _messages = [
-    ChatMessage(
-      text: 'Talk to you later!',
-      isMe: true,
-      timestamp: DateTime.now(),
-    ),
-    ChatMessage(
-      text: 'Sounds good, see ya!',
-      isMe: false,
-      timestamp: DateTime.now(),
-    ),
-    ChatMessage(
-      text: "I'll upload the files tomorrow morning.",
-      isMe: true,
-      timestamp: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-    ChatMessage(
-      text: 'Hey, did you finish the Flutter UI?',
-      isMe: false,
-      timestamp: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-  ];
-
   void _sendMessage() {
     if (_controller.text.trim().isEmpty) return;
-    setState(() {
-      _messages.insert(
-        0,
-        ChatMessage(
-          text: _controller.text.trim(),
-          isMe: true,
-          timestamp: DateTime.now(),
-        ),
-      );
-    });
+    context.read<UserChatBloc>().add(
+      UserChatEvent.sendMessage(_controller.text.trim()),
+    );
     _controller.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.5,
-        title: Row(
-          spacing: 10,
-          children: [
-            ProfileImage(profileImageUrl: 'profileImageUrl', radius: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return BlocBuilder<UserChatBloc, UserChatState>(
+      builder: (context, state) => ScreenLoader(
+        isLoading: state.isLoading,
+        widget: Scaffold(
+          appBar: AppBar(
+            elevation: 0.5,
+            title: Row(
+              spacing: 10,
               children: [
-                Text(
-                  widget.username,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                ProfileImage(
+                  profileImageUrl: state.user.profileImageUrl,
+                  radius: 16,
                 ),
-                const Text(
-                  'Active now',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w400,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      state.user.username,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Text(
+                      'Active now',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.green,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              reverse: true,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final message = _messages[index];
-
-                bool showDateHeader = false;
-                if (index == _messages.length - 1) {
-                  showDateHeader = true;
-                } else {
-                  final prevMessage = _messages[index + 1];
-                  if (message.timestamp.day != prevMessage.timestamp.day) {
-                    showDateHeader = true;
-                  }
-                }
-
-                return Column(
-                  children: [
-                    if (showDateHeader) _buildDateHeader(message.timestamp),
-                    _ChatBubble(message: message),
-                  ],
-                );
-              },
-            ),
           ),
-          _buildInputArea(),
-        ],
+          body: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  reverse: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: state.chats.length,
+                  itemBuilder: (context, index) {
+                    final _messages = state.chats;
+
+                    final message = _messages[index];
+
+                    bool showDateHeader = false;
+                    if (index == _messages.length - 1) {
+                      showDateHeader = true;
+                    } else {
+                      final prevMessage = _messages[index + 1];
+                      if (message.timestamp.day != prevMessage.timestamp.day) {
+                        showDateHeader = true;
+                      }
+                    }
+
+                    return Column(
+                      children: [
+                        if (showDateHeader) _buildDateHeader(message.timestamp),
+                        _ChatBubble(
+                          message: ChatMessage(
+                            text: message.text,
+                            isMe: message.senderId == state.self.uid,
+                            timestamp: message.timestamp,
+                            seen: message.seen,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              _buildInputArea(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -233,9 +222,24 @@ class _ChatBubble extends StatelessWidget {
               left: 4,
               right: 4,
             ),
-            child: Text(
-              DateFormat.jm().format(message.timestamp), // e.g. 10:45 AM
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 11),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  DateFormat.jm().format(message.timestamp),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 11),
+                ),
+                if (isMe) ...[
+                  const SizedBox(width: 4),
+                  Icon(
+                    message.seen ? Icons.done_all_rounded : Icons.done_rounded,
+                    size: 14,
+                    color: message.seen
+                        ? Colors.blueAccent
+                        : Colors.grey.shade600,
+                  ),
+                ],
+              ],
             ),
           ),
         ],
@@ -248,10 +252,12 @@ class ChatMessage {
   final String text;
   final bool isMe;
   final DateTime timestamp;
+  final bool seen;
 
   ChatMessage({
     required this.text,
     required this.isMe,
     required this.timestamp,
+    required this.seen,
   });
 }

@@ -118,7 +118,6 @@ class UserRepositoryImpl implements UserRepository {
   ) async {
     try {
       final posts = await dataSource.getUserBookmarkedPosts(userID);
-      print('Fetched bookmarks: $posts');
       AppService.instance.setSavedPosts(posts);
       return Right(posts);
     } catch (e) {
@@ -151,6 +150,16 @@ class UserRepositoryImpl implements UserRepository {
         _users.entries.where((element) => uids.contains(element.key)),
       );
       return right(users);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Either<Failure, UserEntity> getUserSync(final String uid) {
+    try {
+      if (_users.containsKey(uid)) return right(_users[uid]!);
+      return Left(NetworkFailure('User not found!'));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

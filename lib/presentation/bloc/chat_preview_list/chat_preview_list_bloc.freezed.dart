@@ -55,11 +55,12 @@ extension ChatPreviewListEventPatterns on ChatPreviewListEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _Updated value)?  updated,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
-return started(_that);case _:
+return started(_that);case _Updated() when updated != null:
+return updated(_that);case _:
   return orElse();
 
 }
@@ -77,11 +78,12 @@ return started(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _Updated value)  updated,}){
 final _that = this;
 switch (_that) {
 case _Started():
-return started(_that);case _:
+return started(_that);case _Updated():
+return updated(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -98,11 +100,12 @@ return started(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _Updated value)?  updated,}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
-return started(_that);case _:
+return started(_that);case _Updated() when updated != null:
+return updated(_that);case _:
   return null;
 
 }
@@ -119,10 +122,11 @@ return started(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( List<ChatPreviewEntity> previews)?  updated,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
-return started();case _:
+return started();case _Updated() when updated != null:
+return updated(_that.previews);case _:
   return orElse();
 
 }
@@ -140,10 +144,11 @@ return started();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( List<ChatPreviewEntity> previews)  updated,}) {final _that = this;
 switch (_that) {
 case _Started():
-return started();case _:
+return started();case _Updated():
+return updated(_that.previews);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -160,10 +165,11 @@ return started();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( List<ChatPreviewEntity> previews)?  updated,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
-return started();case _:
+return started();case _Updated() when updated != null:
+return updated(_that.previews);case _:
   return null;
 
 }
@@ -202,6 +208,78 @@ String toString() {
 
 
 
+
+/// @nodoc
+
+
+class _Updated implements ChatPreviewListEvent {
+  const _Updated(final  List<ChatPreviewEntity> previews): _previews = previews;
+  
+
+ final  List<ChatPreviewEntity> _previews;
+ List<ChatPreviewEntity> get previews {
+  if (_previews is EqualUnmodifiableListView) return _previews;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_previews);
+}
+
+
+/// Create a copy of ChatPreviewListEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UpdatedCopyWith<_Updated> get copyWith => __$UpdatedCopyWithImpl<_Updated>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Updated&&const DeepCollectionEquality().equals(other._previews, _previews));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_previews));
+
+@override
+String toString() {
+  return 'ChatPreviewListEvent.updated(previews: $previews)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UpdatedCopyWith<$Res> implements $ChatPreviewListEventCopyWith<$Res> {
+  factory _$UpdatedCopyWith(_Updated value, $Res Function(_Updated) _then) = __$UpdatedCopyWithImpl;
+@useResult
+$Res call({
+ List<ChatPreviewEntity> previews
+});
+
+
+
+
+}
+/// @nodoc
+class __$UpdatedCopyWithImpl<$Res>
+    implements _$UpdatedCopyWith<$Res> {
+  __$UpdatedCopyWithImpl(this._self, this._then);
+
+  final _Updated _self;
+  final $Res Function(_Updated) _then;
+
+/// Create a copy of ChatPreviewListEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? previews = null,}) {
+  return _then(_Updated(
+null == previews ? _self._previews : previews // ignore: cast_nullable_to_non_nullable
+as List<ChatPreviewEntity>,
+  ));
+}
+
+
+}
 
 /// @nodoc
 mixin _$ChatPreviewListState {

@@ -246,7 +246,12 @@ class _PostCardState extends State<PostCard> {
                       icon: const Icon(Icons.comment, color: Colors.white),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AppUtils.showInfoMessage(
+                          context,
+                          'Share post feature coming soon! Stay tuned.',
+                        );
+                      },
                       icon: const Icon(Icons.send, color: Colors.white),
                     ),
                     Flexible(child: Container()),
